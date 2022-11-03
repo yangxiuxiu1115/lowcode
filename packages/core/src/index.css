@@ -6,3 +6,10 @@ body,
   height: 100%;
   overflow: hidden;
 }
+
+#root .ant-layout-header {
+  height: 48px;
+  line-height: 48px;
+  background: inherit;
+  border-bottom: 1px solid #001529;
+}
