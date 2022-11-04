@@ -2,7 +2,8 @@ import React from 'react'
 
 import { Layout } from 'antd'
 import Structure from './Structure/Structure'
-import Material from './Material/Material'
+import Material from './MaterialMenu/MaterialMenu'
+import Canvas from './Canvas/Canvas'
 
 import style from './Page.module.scss'
 
@@ -15,8 +16,10 @@ const Page = () => {
         <Sider theme="light">
           <Structure></Structure>
         </Sider>
-        <Content></Content>
-        <Sider theme="light">
+        <Content>
+          <Canvas></Canvas>
+        </Content>
+        <Sider theme="light" width={250}>
           <Material></Material>
         </Sider>
       </Layout>

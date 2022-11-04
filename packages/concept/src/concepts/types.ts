@@ -48,9 +48,14 @@ export interface BindType {
   inactiveText?: StringInput
   disabled?: SwitchInput
   clearable?: SwitchInput
+  danger?: SwitchInput
+  shape?: SelectInput
+  block?: SwitchInput
+  dashed?: SwitchInput
 }
 
 export interface ViewNodeType {
+  name: string
   property: BindType
   slot: boolean
   text?: string
@@ -59,4 +64,5 @@ export interface ViewNodeType {
 
 export interface AppType {
   views?: (ViewNodeType | ViewNode)[]
+  name: string
 }

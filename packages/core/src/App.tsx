@@ -6,10 +6,10 @@ import { Layout } from 'antd'
 
 const { Header } = Layout
 function Root() {
-  const app = new App({})
+  const app = new App({ name: 'app' })
 
   return (
-    <Layout>
+    <Layout style={{ height: '100%' }}>
       <Header>
         <Toolbar />
       </Header>

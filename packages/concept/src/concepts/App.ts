@@ -4,12 +4,14 @@ import { ViewNodeType, ActionChange, AppType } from './types'
 
 const properties = ['views']
 export default class App extends BaseNode {
+  name: string
   views: (ViewNode | ViewNodeType)[]
 
-  constructor({ views = [] }: AppType) {
+  constructor({ views = [], name }: AppType) {
     super()
     super.instansition(properties)
 
+    this.name = name
     this.views = views
   }
 

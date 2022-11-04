@@ -6,6 +6,7 @@ const properties = ['children']
 export default class ViewNode extends BaseNode {
   type = 'ViewNode'
   property: BindType
+  name: string
   slot: boolean
   text?: string
   parent?: ViewNode | App
@@ -13,10 +14,11 @@ export default class ViewNode extends BaseNode {
 
   children: (ViewNode | ViewNodeType)[]
 
-  constructor({ property, slot, text, children = [] }: ViewNodeType) {
+  constructor({ property, slot, text, children = [], name }: ViewNodeType) {
     super()
     super.instansition(properties)
-
+    
+    this.name = name
     this.property = property
     this.slot = slot
     this.text = text

@@ -1,0 +1,12 @@
+.canvas {
+  height: calc(100% - 40px);
+  margin: 20px;
+  border: 1px dashed #001529;
+  user-select: none;
+  :global {
+    .app {
+      background-color: white;
+      height: 100%;
+    }
+  }
+}
