@@ -67,7 +67,203 @@ const materials: ViewNodeType[] = [
         value: false,
         label: '是否虚线',
       },
+      orientation: {
+        type: 'select',
+        value: 'center',
+        label: '分割线标题的位置',
+        options: [
+          { value: 'center', label: '中心' },
+          { value: 'left', label: '靠左' },
+          { value: 'right', label: '靠右' },
+        ],
+      },
+      plain: {
+        type: 'switch',
+        value: false,
+        label: '文字是否显示为普通正文样式',
+      },
+      type: {
+        type: 'select',
+        value: 'horizontal',
+        label: '水平还是垂直类型',
+        options: [
+          { label: '水平', value: 'horizontal' },
+          { value: 'vertical', label: '垂直' },
+        ],
+      },
     },
+  },
+  {
+    name: 'Row',
+    slot: true,
+    property: {
+      align: {
+        type: 'select',
+        value: 'top',
+        label: '垂直对齐方式',
+        options: [
+          { label: '顶部', value: 'top' },
+          { label: '居中', value: 'middle' },
+          { label: '底部', value: 'bottom' },
+          { label: '延申', value: 'stretch' },
+        ],
+      },
+      gutter: {
+        value: 0,
+        label: '栅格间隔',
+        type: 'number',
+      },
+      justify: {
+        type: 'select',
+        value: 'start',
+        label: '水平排列方式',
+        options: [
+          {
+            label: '起始位置',
+            value: 'start',
+          },
+          {
+            label: '结束位置',
+            value: 'end',
+          },
+          {
+            label: '居中',
+            value: 'center',
+          },
+        ],
+      },
+      wrap: {
+        type: 'switch',
+        value: true,
+        label: '是否自动换行',
+      },
+    },
+    children: [
+      {
+        name: 'Col',
+        slot: true,
+        property: {
+          offset: {
+            type: 'number',
+            value: 0,
+            label: '栅格左侧的间隔格数，间隔内不可以有栅格',
+          },
+          order: {
+            type: 'number',
+            value: 0,
+            label: '栅格顺序',
+          },
+          pull: {
+            type: 'number',
+            value: 0,
+            label: '栅格向左移动格数',
+          },
+          push: {
+            type: 'number',
+            value: 0,
+            label: '栅格向右移动格数',
+          },
+          span: {
+            type: 'number',
+            value: 6,
+            label: '栅格占位格数',
+          },
+        },
+      },
+      {
+        name: 'Col',
+        slot: true,
+        property: {
+          offset: {
+            type: 'number',
+            value: 0,
+            label: '栅格左侧的间隔格数，间隔内不可以有栅格',
+          },
+          order: {
+            type: 'number',
+            value: 0,
+            label: '栅格顺序',
+          },
+          pull: {
+            type: 'number',
+            value: 0,
+            label: '栅格向左移动格数',
+          },
+          push: {
+            type: 'number',
+            value: 0,
+            label: '栅格向右移动格数',
+          },
+          span: {
+            type: 'number',
+            value: 6,
+            label: '栅格占位格数',
+          },
+        },
+      },
+      {
+        name: 'Col',
+        slot: true,
+        property: {
+          offset: {
+            type: 'number',
+            value: 0,
+            label: '栅格左侧的间隔格数，间隔内不可以有栅格',
+          },
+          order: {
+            type: 'number',
+            value: 0,
+            label: '栅格顺序',
+          },
+          pull: {
+            type: 'number',
+            value: 0,
+            label: '栅格向左移动格数',
+          },
+          push: {
+            type: 'number',
+            value: 0,
+            label: '栅格向右移动格数',
+          },
+          span: {
+            type: 'number',
+            value: 6,
+            label: '栅格占位格数',
+          },
+        },
+      },
+      {
+        name: 'Col',
+        slot: true,
+        property: {
+          offset: {
+            type: 'number',
+            value: 0,
+            label: '栅格左侧的间隔格数，间隔内不可以有栅格',
+          },
+          order: {
+            type: 'number',
+            value: 0,
+            label: '栅格顺序',
+          },
+          pull: {
+            type: 'number',
+            value: 0,
+            label: '栅格向左移动格数',
+          },
+          push: {
+            type: 'number',
+            value: 0,
+            label: '栅格向右移动格数',
+          },
+          span: {
+            type: 'number',
+            value: 6,
+            label: '栅格占位格数',
+          },
+        },
+      },
+    ],
   },
 ]
 

@@ -42,6 +42,9 @@ export interface BindType {
   gutter?: NumberInput
   span?: NumberInput
   offset?: NumberInput
+  order?: NumberInput
+  pull?: NumberInput
+  push?: NumberInput
   type?: SelectInput
   size?: SelectInput
   activeText?: StringInput
@@ -52,6 +55,11 @@ export interface BindType {
   shape?: SelectInput
   block?: SwitchInput
   dashed?: SwitchInput
+  orientation?: SelectInput
+  plain?: SwitchInput
+  align?: SelectInput
+  justify?: SelectInput
+  wrap?: SwitchInput
 }
 
 export interface ViewNodeType {
@@ -59,7 +67,7 @@ export interface ViewNodeType {
   property: BindType
   slot: boolean
   text?: string
-  children?: any[]
+  children?: (ViewNodeType | ViewNode)[]
 }
 
 export interface AppType {

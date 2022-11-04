@@ -17,7 +17,7 @@ export default class ViewNode extends BaseNode {
   constructor({ property, slot, text, children = [], name }: ViewNodeType) {
     super()
     super.instansition(properties)
-    
+
     this.name = name
     this.property = property
     this.slot = slot
@@ -38,12 +38,12 @@ export default class ViewNode extends BaseNode {
   delete(actionChange: ActionChange) {
     const { path, index } = actionChange
     if (index) {
-      this.children.splice(index, 1)
       super.delete({
         path,
         content: (this.children[index] as ViewNode).toJSON(),
         index,
       })
+      this.children.splice(index, 1)
     } else {
       const deleteNode = this.children.pop() as ViewNode
       deleteNode &&
@@ -73,6 +73,7 @@ export default class ViewNode extends BaseNode {
       type: this.type,
       property: this.property,
       children: this.children?.map((viewNode: any) => viewNode.toJSON()),
+      name: this.name,
     })
   }
 

@@ -7,7 +7,7 @@ body,
   overflow: hidden;
 }
 
-#root .ant-layout-header {
+#root>.ant-layout>.ant-layout-header {
   height: 48px;
   line-height: 48px;
   background: inherit;
