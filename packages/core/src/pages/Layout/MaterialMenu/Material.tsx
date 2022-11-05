@@ -265,6 +265,31 @@ const materials: ViewNodeType[] = [
       },
     ],
   },
+  {
+    name: 'Layout',
+    slot: true,
+    property: {},
+    children: [
+      {
+        name: 'Header',
+        slot: true,
+        children: [],
+        property: {},
+      },
+      {
+        name: 'Content',
+        slot: true,
+        children: [],
+        property: {},
+      },
+      {
+        name: 'Footer',
+        slot: true,
+        children: [],
+        property: {},
+      },
+    ],
+  },
 ]
 
 const Material = () => {
