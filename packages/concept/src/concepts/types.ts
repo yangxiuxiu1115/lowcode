@@ -37,6 +37,11 @@ interface SelectInput extends BindItemType<string> {
 interface SwitchInput extends BindItemType<boolean> {
   type: 'switch'
 }
+
+interface MultipleInput extends BindItemType<Array<string>> {
+  type: 'multiple'
+  options: { label: string; value: string }[]
+}
 export interface BindType {
   placeholder?: StringInput
   gutter?: NumberInput
@@ -60,14 +65,23 @@ export interface BindType {
   align?: SelectInput
   justify?: SelectInput
   wrap?: SwitchInput
+  direction?: SelectInput
+  arrow?: SwitchInput
+  autoFocus?: SwitchInput
+  destroyPopupOnHide?: SwitchInput
+  placement?: SelectInput
+  trigger?: MultipleInput
+  loading?: SwitchInput
 }
 
 export interface ViewNodeType {
+  typename: string
   name: string
   property: BindType
   slot: boolean
   text?: string
   children?: (ViewNodeType | ViewNode)[]
+  parentname?: string
 }
 
 export interface AppType {
