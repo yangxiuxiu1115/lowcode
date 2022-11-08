@@ -1,4 +1,5 @@
 import React, {
+  cloneElement,
   FC,
   ReactElement,
   useCallback,
@@ -8,51 +9,85 @@ import React, {
 } from 'react'
 
 let isMounted = false
-const addAnimation = (className?: string) => {
-  return ['animate__animated', `animate__${className}`]
+const addAnimation = (isEnter: boolean, className?: string) => {
+  if (className) {
+    return ['animate__animated', `animate__${className}`]
+  } else {
+    if (isEnter) {
+      return ['animate__animated', 'animate__bounceInRight']
+    } else {
+      return ['animate__animated', 'animate__bounceOutRight']
+    }
+  }
 }
+const DEFAULT_ENTER_ANIMATION = 'animate__bounceInRight'
+const DEFAULT_LEAVE_ANIMATION = 'animate__bounceOutRight'
+
 const SwitchTransition: FC<{
   children: ReactElement
   start?: string
   end?: string
   state: number | boolean | string
 }> = ({ children, start, end, state }) => {
-  const [current, setCurrent] = useState<ReactElement | null>(null)
+  const [current, setCurrent] = useState<ReactElement>(children)
   const animationRef = useRef<HTMLDivElement>(null)
 
-  
-  const animationend = useCallback(
-    function (this: HTMLDivElement) {
-      this.classList.remove('animate__animated')
+  const removeClass = useCallback(
+    function (el: HTMLDivElement | null) {
+      el?.classList.remove('animate__animated')
       if (start) {
-        this.classList.remove(`animate__${start}`)
+        el?.classList.remove(`animate__${start}`)
+      } else {
+        el?.classList.remove(DEFAULT_ENTER_ANIMATION)
       }
       if (end) {
-        this.classList.remove(`animate__${end}`)
-      }
-      if (!isMounted) {
-        isMounted = true
+        el?.classList.remove(`animate__${end}`)
       } else {
-        animationRef.current?.classList.add(...addAnimation(start))
+        el?.classList.remove(DEFAULT_LEAVE_ANIMATION)
       }
-      setCurrent(children)
-      this.removeEventListener('animationend', animationend)
     },
     [start, end]
   )
 
-  useEffect(() => {
+  const animationend = useCallback(
+    function (this: HTMLDivElement) {
+      this.removeEventListener('animationend', animationend)
+      if (!isMounted) {
+        removeClass(this)
+        isMounted = true
+      } else {
+        isMounted = false
+        setCurrent(children)
+      }
+    },
+    [children]
+  )
+
+  const effect = useCallback(() => {
     if (!isMounted) {
-      if (start) animationRef.current?.classList.add(...addAnimation(start))
+      if (children.type === current.type) {
+        removeClass(animationRef.current)
+      }
+      animationRef.current?.classList.add(...addAnimation(true, start))
     } else {
       if (current) {
-        animationRef.current?.classList.add(...addAnimation(end))
+        animationRef.current?.classList.add(...addAnimation(false, end))
       }
     }
     animationRef.current?.addEventListener('animationend', animationend)
-  }, [state])
+  }, [start, end, children])
 
-  return <div ref={animationRef}>{current || children}</div>
+  useEffect(() => {
+    effect()
+  }, [state, current])
+
+  return (
+    <>
+      {cloneElement(current, {
+        ref: animationRef,
+      })}
+    </>
+  )
 }
 
 export default SwitchTransition

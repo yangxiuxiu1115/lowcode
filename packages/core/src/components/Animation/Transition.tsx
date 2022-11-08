@@ -1,4 +1,5 @@
 import React, {
+  cloneElement,
   FC,
   ReactElement,
   useCallback,
@@ -7,8 +8,16 @@ import React, {
   useState,
 } from 'react'
 
-const addAnimation = (className: string) => {
-  return ['animate__animated', `animate__${className}`]
+const addAnimation = (isEnter: boolean, className?: string) => {
+  if (className) {
+    return ['animate__animated', `animate__${className}`]
+  } else {
+    if (isEnter) {
+      return ['animate__animated', 'animate__bounceInRight']
+    } else {
+      return ['animate__animated', 'animate__bounceOutRight']
+    }
+  }
 }
 const Transition: FC<{
   state: boolean
@@ -20,14 +29,19 @@ const Transition: FC<{
   const animateRef = useRef<HTMLDivElement>(null)
   const animationend = useCallback(
     function (this: HTMLDivElement) {
-      this.classList.remove('animate__animated')
-      if (start) {
-        this.classList.remove(`animate__${start}`)
-      }
-      if (end) {
-        this.classList.remove(`animate__${end}`)
-      }
-      if (!state) {
+      if (state) {
+        this.classList.remove('animate__animated')
+        if (start) {
+          this.classList.remove(`animate__${start}`)
+        } else {
+          this.classList.remove('animate__bounceInRight')
+        }
+        if (end) {
+          this.classList.remove(`animate__${end}`)
+        } else {
+          this.classList.remove('animate__bounceOutRight')
+        }
+      } else {
         setCurrent(null)
       }
       this.removeEventListener('animationend', animationend)
@@ -38,14 +52,27 @@ const Transition: FC<{
   useEffect(() => {
     if (state) {
       setCurrent(children)
-      start && animateRef.current?.classList.add(...addAnimation(start))
     } else {
-      end && animateRef.current?.classList.add(...addAnimation(end))
+      animateRef.current?.classList.add(...addAnimation(false, end))
+      animateRef.current?.addEventListener('animationend', animationend)
     }
-    animateRef.current?.addEventListener('animationend', animationend)
   }, [state])
 
-  return <div ref={animateRef}>{current}</div>
+  useEffect(() => {
+    if (current) {
+      animateRef.current?.classList.add(...addAnimation(true, start))
+      animateRef.current?.addEventListener('animationend', animationend)
+    }
+  }, [current])
+
+  return (
+    <>
+      {current &&
+        cloneElement(current, {
+          ref: animateRef,
+        })}
+    </>
+  )
 }
 
 export default Transition
