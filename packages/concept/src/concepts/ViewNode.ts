@@ -1,11 +1,11 @@
 import BaseNode from './BaseNode'
 import App from './App'
-import { BindType, ActionChange, ViewNodeType } from './types'
+import { ActionChange, ViewNodeType } from './types'
 
 const properties = ['children']
 export default class ViewNode extends BaseNode {
   type = 'ViewNode'
-  property: BindType
+  property: { [key: string]: number | string }
   typename: string
   name: string
   slot: boolean
@@ -17,7 +17,7 @@ export default class ViewNode extends BaseNode {
   children: (ViewNode | ViewNodeType)[]
 
   constructor({
-    property,
+    property = {},
     slot,
     text,
     children = [],
@@ -39,7 +39,7 @@ export default class ViewNode extends BaseNode {
 
   update({ path, content }: ActionChange): void {
     Object.keys(content).forEach((key) => {
-      ;(this.property[key as keyof BindType] as any).value = content[key]
+      this.property[key] = content[key].value
     })
     super.update({
       path,

@@ -1,5 +1,5 @@
-import { ViewNodeType } from '@lowcode/concept'
-const materials: ViewNodeType[] = [
+import { MaterialType } from './type'
+const materials: MaterialType[] = [
   {
     name: '按钮',
     typename: 'Button',
@@ -519,5 +519,4 @@ const materials: ViewNodeType[] = [
     text: '下拉按钮菜单',
   },
 ]
-
 export default materials

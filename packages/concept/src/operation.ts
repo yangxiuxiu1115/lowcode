@@ -1,5 +1,6 @@
 import { App, ViewNode } from './concepts'
 import { ActionItem } from './concepts/types'
+import { event } from './event'
 export const RevocationStack: ActionItem[] = []
 export const FallbackStack: ActionItem[] = []
 export let isRevocate = false
@@ -20,6 +21,17 @@ const operation = (operate: ActionItem, app: App) => {
   }
 }
 
+event.subscribe('onChange', (payload: ActionItem) => {
+  if (isRevocate) {
+    FallbackStack.push(payload)
+    isRevocate = false
+  } else {
+    RevocationStack.push(payload)
+  }
+
+  event.publish('storage', payload)
+})
+
 export const revocation = (app: App) => {
   const operate = RevocationStack.pop()
   if (operate) {
@@ -33,8 +45,4 @@ export const fallback = (app: App) => {
   if (operate) {
     operation(operate, app)
   }
-}
-
-export const toggleAction = (value: boolean) => {
-  isRevocate = value
 }

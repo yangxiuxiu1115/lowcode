@@ -24,7 +24,10 @@ export default class App extends BaseNode {
     }
     super.add({
       path: 'app',
-      content: JSON.stringify(content),
+      content: JSON.stringify({
+        content,
+        index,
+      }),
     })
   }
 
