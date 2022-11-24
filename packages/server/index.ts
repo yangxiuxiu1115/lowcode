@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import { koaBody } from 'koa-body'
-import storage from './storage'
+import storage from './src/storage'
 
 const app = new Koa()
 
