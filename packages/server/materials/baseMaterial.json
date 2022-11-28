@@ -20,6 +20,11 @@
         "value": false,
         "label": "按钮失效状态"
       },
+      "ghost": {
+        "type": "switch",
+        "value": false,
+        "label": "幽灵属性，使按钮背景透明"
+      },
       "shape": {
         "type": "select",
         "value": "default",
@@ -281,14 +286,34 @@
         "typename": "Header",
         "slot": true,
         "children": [],
-        "property": {}
+        "property": {
+          "style": {
+            "height": "100%"
+          }
+        }
       },
       {
-        "parentname": "Layout",
-        "name": "容器内容",
-        "typename": "Content",
+        "name": "布局容器",
+        "typename": "Layout",
         "slot": true,
-        "children": [],
+        "children": [
+          {
+            "parentname": "Layout",
+            "name": "侧边布局",
+            "typename": "Sider",
+            "slot": true,
+            "children": [],
+            "property": {}
+          },
+          {
+            "parentname": "Layout",
+            "name": "容器内容",
+            "typename": "Content",
+            "slot": true,
+            "children": [],
+            "property": {}
+          }
+        ],
         "property": {}
       },
       {
@@ -345,12 +370,13 @@
           { "label": "小", "value": "small" }
         ]
       }
-    }
+    },
+    "children": []
   },
   {
     "name": "面包屑",
     "typename": "Breadcrumb",
-    "slot": true,
+    "slot": false,
     "property": {},
     "children": [
       {
@@ -382,7 +408,7 @@
   {
     "name": "下拉菜单",
     "typename": "Dropdown",
-    "slot": true,
+    "slot": false,
     "property": {
       "arrow": {
         "type": "switch",
@@ -428,14 +454,14 @@
         ]
       }
     },
-    "children": [],
-    "text": "下拉菜单"
+    "text": "下拉菜单",
+    "childrenName": "menu"
   },
   {
     "name": "下拉按钮菜单",
     "parentname": "Dropdown",
     "typename": "Button",
-    "slot": true,
+    "slot": false,
     "property": {
       "arrow": {
         "type": "switch",
@@ -514,7 +540,661 @@
         ]
       }
     },
-    "children": [],
-    "text": "下拉按钮菜单"
+    "text": "下拉按钮菜单",
+    "childrenName": "menu"
+  },
+  {
+    "name": "导航菜单",
+    "typename": "Menu",
+    "slot": false,
+    "property": {
+      "mode": {
+        "type": "select",
+        "value": "vertical",
+        "label": "菜单类型，现在支持垂直、水平、和内嵌模式三种",
+        "options": [
+          {
+            "label": "垂直",
+            "value": "vertical"
+          },
+          {
+            "label": "水平",
+            "value": "horizontal"
+          },
+          {
+            "label": "内嵌",
+            "value": "inline"
+          }
+        ]
+      },
+      "multiple": {
+        "type": "switch",
+        "value": false,
+        "label": "是否允许多选"
+      }
+    },
+    "childrenName": "items"
+  },
+  {
+    "name": "步骤条",
+    "typename": "Steps",
+    "slot": false,
+    "childrenName": "items",
+    "property": {
+      "direction": {
+        "type": "select",
+        "label": "指定步骤条方向",
+        "value": "horizontal",
+        "options": [
+          {
+            "label": "水平",
+            "value": "horizontal"
+          },
+          {
+            "label": "垂直",
+            "value": "vertical"
+          }
+        ]
+      },
+      "labelPlacement": {
+        "type": "select",
+        "label": "指定标签放置位置，默认水平放图标右侧",
+        "value": "horizontal",
+        "options": [
+          {
+            "label": "图标右侧",
+            "value": "horizontal"
+          },
+          {
+            "label": "图标下方",
+            "value": "vertical"
+          }
+        ]
+      },
+      "size": {
+        "type": "select",
+        "label": "指定大小",
+        "value": "default",
+        "options": [
+          {
+            "label": "普通",
+            "value": "default"
+          },
+          {
+            "label": "迷你",
+            "value": "small"
+          }
+        ]
+      },
+      "percent": {
+        "type": "number",
+        "label": "当前 process 步骤显示的进度条进度"
+      },
+      "status": {
+        "type": "select",
+        "label": "指定当前步骤的状态",
+        "value": "process",
+        "options": [
+          {
+            "label": "等待中",
+            "value": "wait"
+          },
+          {
+            "label": "进行中",
+            "value": "process"
+          },
+          {
+            "label": "已完成",
+            "value": "finish"
+          },
+          {
+            "label": "错误",
+            "value": "error"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "自动完成",
+    "typename": "AutoComplete",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "type": "switch",
+        "label": "支持清除",
+        "value": false
+      },
+      "autoFocus": {
+        "type": "switch",
+        "label": "自动获取焦点",
+        "value": false
+      },
+      "disabled": {
+        "type": "switch",
+        "label": "是否禁用",
+        "value": "false"
+      },
+      "placeholder": {
+        "type": "string",
+        "label": "输入框提示"
+      }
+    },
+    "childrenName": "options"
+  },
+  {
+    "name": "级联选择",
+    "typename": "Cascader",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "label": "是否支持清除",
+        "value": true,
+        "type": "switch"
+      },
+      "autoFocus": {
+        "label": "自动获取焦点",
+        "value": false,
+        "type": "switch"
+      },
+      "bordered": {
+        "label": "是否有边框",
+        "value": true,
+        "type": "switch"
+      },
+      "disabled": {
+        "label": "禁用",
+        "value": false,
+        "type": "switch"
+      },
+      "placeholder": {
+        "label": "输入框占位文本",
+        "value": "请选择",
+        "type": "string"
+      },
+      "placement": {
+        "label": "浮层预设位置",
+        "value": "bottomLeft",
+        "type": "select",
+        "options": [
+          { "label": "下左方向", "value": "bottomLeft" },
+          { "label": "下右方向", "value": "bottomRight" },
+          { "label": "上左方向", "value": "topLeft" },
+          { "label": "上右方向", "value": "topRight" }
+        ]
+      }
+    },
+    "childrenName": "options"
+  },
+  {
+    "name": "多选框",
+    "typename": "Checkbox",
+    "slot": false,
+    "text": "多选框",
+    "property": {
+      "autoFocus": {
+        "label": "自动获取焦点",
+        "value": false,
+        "type": "switch"
+      },
+      "defaultChecked": {
+        "label": "初始是否选中",
+        "value": false,
+        "type": "switch"
+      },
+      "disabled": {
+        "label": "失效状态",
+        "value": false,
+        "type": "switch"
+      }
+    }
+  },
+  {
+    "name": "多选框组",
+    "typename": "Group",
+    "parentname": "Checkbox",
+    "slot": false,
+    "childrenName": "options",
+    "property": {
+      "disabled": {
+        "label": "失效状态",
+        "value": false,
+        "type": "switch"
+      }
+    }
+  },
+  {
+    "name": "日期选择框",
+    "typename": "DatePicker",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "label": "是否支持清除",
+        "value": true,
+        "type": "switch"
+      },
+      "autoFocus": {
+        "label": "自动获取焦点",
+        "value": false,
+        "type": "switch"
+      },
+      "bordered": {
+        "label": "是否有边框",
+        "value": true,
+        "type": "switch"
+      },
+      "disabled": {
+        "label": "禁用",
+        "value": false,
+        "type": "switch"
+      },
+      "picker": {
+        "label": "设置选择器类型",
+        "value": "date",
+        "type": "select",
+        "options": [
+          { "label": "日期", "value": "date" },
+          { "label": "周", "value": "week" },
+          { "label": "月", "value": "month" },
+          { "label": "季度", "value": "quarter" },
+          { "label": "年", "value": "year" }
+        ]
+      },
+      "placeholder": {
+        "label": "输入框占位文本",
+        "value": "请选择",
+        "type": "string"
+      },
+      "placement": {
+        "label": "浮层预设位置",
+        "value": "bottomLeft",
+        "type": "select",
+        "options": [
+          { "label": "下左方向", "value": "bottomLeft" },
+          { "label": "下右方向", "value": "bottomRight" },
+          { "label": "上左方向", "value": "topLeft" },
+          { "label": "上右方向", "value": "topRight" }
+        ]
+      }
+    }
+  },
+  {
+    "name": "日期范围选择器",
+    "typename": "RangePicker",
+    "slot": false,
+    "parentname": "DatePicker",
+    "property": {
+      "allowClear": {
+        "label": "是否支持清除",
+        "value": true,
+        "type": "switch"
+      },
+      "autoFocus": {
+        "label": "自动获取焦点",
+        "value": false,
+        "type": "switch"
+      },
+      "bordered": {
+        "label": "是否有边框",
+        "value": true,
+        "type": "switch"
+      },
+      "disabled": {
+        "label": "禁用",
+        "value": false,
+        "type": "switch"
+      },
+      "picker": {
+        "label": "设置选择器类型",
+        "value": "date",
+        "type": "select",
+        "options": [
+          { "label": "日期", "value": "date" },
+          { "label": "周", "value": "week" },
+          { "label": "月", "value": "month" },
+          { "label": "季度", "value": "quarter" },
+          { "label": "年", "value": "year" }
+        ]
+      },
+      "placeholder": {
+        "label": "输入框占位文本",
+        "value": "请选择",
+        "type": "string"
+      },
+      "placement": {
+        "label": "浮层预设位置",
+        "value": "bottomLeft",
+        "type": "select",
+        "options": [
+          { "label": "下左方向", "value": "bottomLeft" },
+          { "label": "下右方向", "value": "bottomRight" },
+          { "label": "上左方向", "value": "topLeft" },
+          { "label": "上右方向", "value": "topRight" }
+        ]
+      }
+    }
+  },
+  {
+    "name": "表单",
+    "typename": "Form",
+    "slot": true,
+    "property": {
+      "disabled": {
+        "value": false,
+        "label": "设置表单组件禁用",
+        "type": "switch"
+      },
+      "labelAlign": {
+        "label": "label 标签的文本对齐方式",
+        "value": "right",
+        "type": "switch",
+        "options": [
+          {
+            "label": "左对齐",
+            "value": "left"
+          },
+          {
+            "label": "右对齐",
+            "value": "right"
+          }
+        ]
+      },
+      "labelWrap": {
+        "label": "label 标签的文本换行方式",
+        "value": false,
+        "type": "switch"
+      },
+      "layout": {
+        "label": "表单布局",
+        "value": "horizontal",
+        "type": "switch",
+        "options": [
+          {
+            "label": "水平",
+            "value": "horizontal"
+          },
+          {
+            "label": "垂直",
+            "value": "vertical"
+          },
+          {
+            "label": "行内",
+            "value": "inline"
+          }
+        ]
+      },
+      "name": {
+        "label": "表单名称，会作为表单字段 id 前缀使用",
+        "type": "string"
+      },
+      "size": {
+        "label": "设置字段组件的尺寸",
+        "type": "switch",
+        "options": [
+          {
+            "label": "中等",
+            "value": "middle"
+          },
+          {
+            "label": "偏小",
+            "value": "small"
+          },
+          {
+            "label": "偏大",
+            "value": "large"
+          }
+        ]
+      }
+    },
+    "children": [
+      {
+        "name": "表单项",
+        "typename": "Item",
+        "parentname": "Form",
+        "slot": true,
+        "children": [],
+        "property": {
+          "name": {
+            "label": "字段名",
+            "value": "name1",
+            "type": "string"
+          },
+          "label": {
+            "label": "label 标签的文本",
+            "value": "表单项一",
+            "type": "string"
+          },
+          "labelAlign": {
+            "label": "label 标签的文本对齐方式",
+            "value": "right",
+            "type": "switch",
+            "options": [
+              {
+                "label": "左对齐",
+                "value": "left"
+              },
+              {
+                "label": "右对齐",
+                "value": "right"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "输入框",
+    "typename": "Input",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "label": "可以点击清除图标删除内容",
+        "type": "switch",
+        "value": true
+      },
+      "bordered": {
+        "label": "是否有边框",
+        "value": true,
+        "type": "switch"
+      },
+      "disabled": {
+        "type": "switch",
+        "value": false,
+        "label": "是否禁用状态"
+      },
+      "size": {
+        "type": "select",
+        "value": "middle",
+        "label": "控件大小",
+        "options": [
+          { "value": "middle", "label": "默认大小" },
+          { "value": "large", "label": "偏大" },
+          { "value": "small", "label": "偏小" }
+        ]
+      }
+    }
+  },
+  {
+    "typename": "InputNumber",
+    "name": "数字输入框",
+    "slot": false,
+    "property": {
+      "autoFocus": {
+        "type": "switch",
+        "value": false,
+        "label": "自动获取焦点"
+      },
+      "disabled": {
+        "type": "switch",
+        "value": false,
+        "label": "是否有边框"
+      },
+      "readOnly": {
+        "type": "switch",
+        "value": false,
+        "label": "只读"
+      },
+      "size": {
+        "type": "select",
+        "value": "middle",
+        "label": "输入框大小",
+        "options": [
+          { "value": "middle", "label": "默认大小" },
+          { "value": "large", "label": "偏大" },
+          { "value": "small", "label": "偏小" }
+        ]
+      },
+      "step": {
+        "type": "number",
+        "value": 1,
+        "label": "每次改变步数，可以为小数"
+      }
+    }
+  },
+  {
+    "name": "单选框",
+    "typename": "Group",
+    "parentname": "Radio",
+    "slot": true,
+    "property": {
+      "disabled": {
+        "type": "switch",
+        "value": false,
+        "label": "禁选所有子单选器"
+      }
+    },
+    "children": [
+      {
+        "name": "单选项",
+        "typename": "Radio",
+        "slot": false,
+        "property": {
+          "autoFocus": {
+            "type": "switch",
+            "value": false,
+            "label": "打开后自动聚焦下拉框"
+          },
+          "disabled": {
+            "type": "switch",
+            "value": false,
+            "label": "禁用 Radio"
+          },
+          "defaultChecked": {
+            "type": "switch",
+            "value": false,
+            "label": "初始是否选中"
+          }
+        },
+        "text": "单选项一"
+      }
+    ]
+  },
+  {
+    "typename": "Rate",
+    "name": "评分",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "label": "是否允许再次点击后清除",
+        "value": true,
+        "type": "switch"
+      },
+      "allowHalf": {
+        "label": "是否允许半选",
+        "value": false,
+        "type": "switch"
+      },
+      "autoFocus": {
+        "label": "自动获取焦点",
+        "value": false,
+        "type": "switch"
+      },
+      "count": {
+        "label": "star 总数",
+        "value": 5,
+        "type": "number"
+      },
+      "defaultValue": {
+        "label": "默认值",
+        "value": 0,
+        "type": "number"
+      },
+      "disabled": {
+        "label": "只读，无法进行交互",
+        "value": false,
+        "type": "switch"
+      }
+    }
+  },
+  {
+    "typename": "Select",
+    "name": "选择器",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "type": "switch",
+        "value": false,
+        "label": "支持清除"
+      },
+      "autoFocus": {
+        "type": "switch",
+        "value": false,
+        "label": "默认获取焦点"
+      },
+      "loading": {
+        "type": "switch",
+        "value": false,
+        "label": "加载中状态"
+      },
+      "mode": {
+        "type": "select",
+        "label": "设置 Select 的模式为多选或标签",
+        "options": [
+          {
+            "label": "多选",
+            "value": "multiple"
+          },
+          {
+            "label": "标签",
+            "value": "tags"
+          }
+        ]
+      },
+      "placeholder": {
+        "label": "选择框默认文本",
+        "type": "string"
+      },
+      "placement": {
+        "label": "选择框弹出的位置",
+        "value": "bottomLeft",
+        "type": "select",
+        "options": [
+          { "label": "下左方向", "value": "bottomLeft" },
+          { "label": "下右方向", "value": "bottomRight" },
+          { "label": "上左方向", "value": "topLeft" },
+          { "label": "上右方向", "value": "topRight" }
+        ]
+      },
+      "showArrow": {
+        "label": "是否显示下拉小箭头,单选为 true,多选为 false",
+        "type": "switch"
+      },
+      "showSearch": {
+        "label": "配置是否可搜索,单选为 false,多选为 true",
+        "type": "switch"
+      },
+      "size": {
+        "type": "select",
+        "value": "middle",
+        "label": "选择框大小",
+        "options": [
+          { "value": "middle", "label": "默认大小" },
+          { "value": "large", "label": "偏大" },
+          { "value": "small", "label": "偏小" }
+        ]
+      }
+    },
+    "childrenName": "options"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   }
 ]

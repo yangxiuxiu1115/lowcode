@@ -10,7 +10,7 @@ const tabs: tabType[] = [
   { label: '属性', key: 'attribute' },
 ]
 
-const MaterialMenu: FC<{ selectNode: ViewNode }> = ({ selectNode }) => {
+const MaterialMenu: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
   return (
     <div className={style.material}>
       <Tabs
