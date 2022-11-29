@@ -1195,6 +1195,160 @@
         ]
       }
     },
-    "childrenName": "options"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    "childrenName": "options"
+  },
+  {
+    "name": "滑动输入条",
+    "typename": "Slider",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "type": "switch",
+        "label": "支持清除, 单选模式有效",
+        "value": false
+      },
+      "defaultValue": {
+        "type": "number",
+        "label": "设置初始取值。当 range 为 false 时，使用 number，否则用 [number, number]",
+        "value": 0
+      },
+      "disabled": {
+        "type": "switch",
+        "label": "值为 true 时，滑块为禁用状态",
+        "value": false
+      },
+      "dots": {
+        "type": "switch",
+        "label": "是否只能拖拽到刻度上",
+        "value": false
+      },
+      "max": {
+        "type": "number",
+        "label": "最大值",
+        "value": 100
+      },
+      "min": {
+        "type": "number",
+        "label": "最小值",
+        "value": 0
+      },
+      "range": {
+        "type": "switch",
+        "label": "双滑块模式",
+        "value": false
+      },
+      "step": {
+        "type": "number",
+        "label": "步长，取值必须大于 0，并且可被 (max - min) 整除",
+        "value": 1
+      }
+    }
+  },
+  {
+    "name": "开关",
+    "typename": "Switch",
+    "slot": false,
+    "property": {
+      "autoFocus": {
+        "type": "switch",
+        "value": false,
+        "label": "组件自动获取焦点"
+      },
+      "checked": {
+        "type": "switch",
+        "value": false,
+        "label": "指定当前是否选中"
+      },
+      "checkedChildren": {
+        "type": "string",
+        "label": "选中时的内容"
+      },
+      "unCheckedChildren": {
+        "type": "string",
+        "label": "选中时的内容"
+      },
+      "defaultChecked": {
+        "type": "switch",
+        "value": false,
+        "label": "初始是否选中"
+      },
+      "disabled": {
+        "type": "switch",
+        "value": false,
+        "label": "是否禁用"
+      },
+      "size": {
+        "type": "select",
+        "value": "default",
+        "label": "开关大小",
+        "options": [
+          { "label": "迷你", "value": "small" },
+          { "label": "默认", "value": "default" }
+        ]
+      }
+    }
+  },
+  {
+    "name": "时间选择器",
+    "typename": "TimePicker",
+    "slot": false,
+    "property": {
+      "allowClear": {
+        "type": "switch",
+        "label": "支持清除, 单选模式有效",
+        "value": false
+      },
+      "autoFocus": {
+        "type": "switch",
+        "label": "自动获取焦点",
+        "value": false
+      },
+      "bordered": {
+        "type": "switch",
+        "label": "是否有边框",
+        "value": false
+      },
+      "disabled": {
+        "type": "switch",
+        "label": "禁用全部操作",
+        "value": false
+      },
+      "format": {
+        "type": "string",
+        "label": "展示的时间格式",
+        "value": "HH:mm:ss"
+      },
+      "hideDisabledOptions": {
+        "type": "switch",
+        "label": "隐藏禁止选择的选项",
+        "value": false
+      },
+      "hourStep": {
+        "type": "number",
+        "label": "小时选项间隔",
+        "value": 1
+      },
+      "step": {
+        "type": "number",
+        "label": "步长，取值必须大于 0，并且可被 (max - min) 整除",
+        "value": 1
+      },
+      "placeholder": {
+        "label": "没有值的时候显示的内容",
+        "value": "请选择时间",
+        "type": "string"
+      },
+      "placement": {
+        "label": "选择框弹出的位置",
+        "value": "bottomLeft",
+        "type": "select",
+        "options": [
+          { "label": "下左方向", "value": "bottomLeft" },
+          { "label": "下右方向", "value": "bottomRight" },
+          { "label": "上左方向", "value": "topLeft" },
+          { "label": "上右方向", "value": "topRight" }
+        ]
+      }
+    }
   }
 ]
