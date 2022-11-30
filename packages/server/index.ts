@@ -1,9 +1,15 @@
 import Koa from 'koa'
 import { koaBody } from 'koa-body'
+import cors from '@koa/cors'
 import useRoutes from './src/routes'
 
 const app = new Koa()
 
+app.use(
+  cors({
+    origin: '127.0.0.1:5173',
+  })
+)
 app.use(koaBody())
 useRoutes(app)
 
