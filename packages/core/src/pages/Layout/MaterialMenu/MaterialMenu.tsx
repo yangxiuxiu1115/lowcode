@@ -22,7 +22,6 @@ const MaterialMenu: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
           }
           return true
         })}
-        centered
       />
     </div>
   )
