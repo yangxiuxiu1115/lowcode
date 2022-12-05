@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import type { InstanceConfig, RequestConfig } from './type'
+import type { InstanceConfig, RequestConfig } from '../type'
 
 class HTTP {
   instance: AxiosInstance

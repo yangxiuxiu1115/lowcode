@@ -1,0 +1,12 @@
+.material {
+  height: calc(100vh - 48px - 46px);
+  overflow-y: auto;
+
+  :global {
+    .ant-list-item {
+      font-size: 12px;
+      padding: 0 8px;
+      text-align: center;
+    }
+  }
+}

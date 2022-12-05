@@ -12,3 +12,7 @@ body,
   line-height: 48px;
   background: inherit;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}

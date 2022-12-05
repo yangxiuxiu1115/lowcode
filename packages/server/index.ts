@@ -7,7 +7,7 @@ const app = new Koa()
 
 app.use(
   cors({
-    origin: '127.0.0.1:5173',
+    origin: 'http://127.0.0.1:5173',
   })
 )
 app.use(koaBody())

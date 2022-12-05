@@ -1,7 +1,7 @@
 import HTTP from './request'
 
 const http = new HTTP({
-  url: 'localhost:8000',
+  baseURL: 'http://127.0.0.1:8000',
   timeout: 2000,
   requestInterceptorsOnFulfilled: (config) => {
     const token = localStorage.getItem('token')
@@ -9,6 +9,12 @@ const http = new HTTP({
       config.headers.token = token
     }
     return config
+  },
+  responceInterceptorsOnFulfilled: (responce) => {
+    if (responce.status === 200) {
+      return responce.data
+    }
+    return responce
   },
 })
 
