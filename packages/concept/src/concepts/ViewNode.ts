@@ -5,19 +5,20 @@ import { ActionChange, ViewNodeType } from './types'
 const properties = ['children']
 export default class ViewNode extends BaseNode {
   type = 'ViewNode'
-  property: { [key: string]: number | string }
+  property: { [key: string]: number | string } = {}
   typename: string
   name: string
   slot: boolean
   text?: string
   parent?: ViewNode | App
   parentname?: string
+
+  private location: DOMRect | null = null
   private _el: HTMLElement | null = null
 
   children: (ViewNode | ViewNodeType)[]
 
   constructor({
-    property = {},
     slot,
     text,
     children = [],
@@ -30,7 +31,6 @@ export default class ViewNode extends BaseNode {
 
     this.name = name
     this.typename = typename
-    this.property = property
     this.slot = slot
     this.text = text
     this.children = children
@@ -100,5 +100,13 @@ export default class ViewNode extends BaseNode {
 
   setElement(el: HTMLElement) {
     this._el = el
+  }
+
+  getRect() {
+    return this.location
+  }
+
+  setRect(rect: DOMRect) {
+    this.location = rect
   }
 }
