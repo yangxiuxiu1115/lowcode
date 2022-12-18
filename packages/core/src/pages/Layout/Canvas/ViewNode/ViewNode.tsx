@@ -19,7 +19,7 @@ const ViewItem: FC<{ viewNode: ViewNode; path: string }> = ({
       viewNode.setElement(componentRef.current)
       viewNode.setRect(componentRef.current.getBoundingClientRect())
     }
-  }, [])
+  }, [path])
 
   return (
     <Component {...property} ref={componentRef}>
