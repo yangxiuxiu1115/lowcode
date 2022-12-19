@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { FC, useEffect } from 'react'
 
 import style from './Prompt.module.scss'
 
-const Prompt = () => {
+const Prompt: FC<{ hoverNode: HTMLElement | null }> = ({ hoverNode }) => {
+  useEffect(() => {
+    console.log(hoverNode)
+  }, [hoverNode])
+
   return (
     <>
       <div className={style['select-node']}></div>

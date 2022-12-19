@@ -12,7 +12,8 @@ module.exports = {
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    project: ['./packages/core/tsconfig.json']
   },
   plugins: ['react'],
   rules: {}
