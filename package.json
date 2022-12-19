@@ -6,12 +6,25 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd ./packages/core && pnpm run dev",
-    "server": "cd ./packages/server && pnpm run dev"
+    "server": "cd ./packages/server && pnpm run dev",
+    "prepare": "husky install",
+    "lint": "eslint src --fix"
+  },
+  "lint-staged": {
+    "*.{ts, tsx}": ["eslint --fix"]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "typescript": "^4.6.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1"
   }
 }
