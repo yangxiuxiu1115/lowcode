@@ -14,6 +14,11 @@ module.exports = {
     'react/prop-types': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     'prettier/prettier': 'off',
-    '@typescript-eslint/indent': 'off'
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-implied-eval': 'off',
+    'no-new-func': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/member-delimiter-style': 'off'
   }
 }

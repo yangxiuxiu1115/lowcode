@@ -1,6 +1,8 @@
 .dragover-prompt,
 .select-node,
 .hover-node {
-  position: absolute;
-  background-color: aqua;
+  position: fixed;
+  display: none;
+  border: 2px dashed aqua;
+  cursor: pointer;
 }

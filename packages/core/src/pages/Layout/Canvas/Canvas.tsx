@@ -1,36 +1,58 @@
-import React, { DragEventHandler, useRef, useState } from 'react'
+import React, {
+  DragEventHandler,
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useState
+} from 'react'
 import { App } from '@lowcode/concept'
 import type { ViewNode } from '@lowcode/concept'
 
 import style from './canvas.module.scss'
 import ViewItem from './ViewNode/ViewNode'
 import Prompt from './Prompt/Prompt'
-import { GetViewNode, GetViewNodePath } from '@/utils/utils'
+import { GetViewNode, GetViewNodeJson } from '@/utils/utils'
 
-const Canvas = () => {
-  const app = new App({
-    name: 'app',
-    views: [
-      {
-        name: '按钮',
-        typename: 'Button',
-        slot: false,
-        text: '按钮',
-        property: {
-          type: 'primary'
-        }
+const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
+  handleSelect
+}) => {
+  const [app, setApp] = useState<App>()
+  const [hoverViewNode, setHoverViewNode] = useState<ViewNode>()
+
+  useEffect(() => {
+    setApp(
+      new App({
+        name: 'app',
+        views: [
+          {
+            name: '按钮',
+            typename: 'Button',
+            slot: false,
+            text: '按钮',
+            property: {
+              type: 'primary'
+            }
+          }
+        ]
+      })
+    )
+  }, [])
+
+  const onMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
+    const targetNode = GetViewNode(e.target as HTMLElement)
+    const path = targetNode?.getAttribute('lowcode-path')
+    if (path) {
+      const hoverNodeJson = GetViewNodeJson(app!, path)
+      if (hoverNodeJson.id !== hoverViewNode?.id) {
+        setHoverViewNode(hoverNodeJson)
       }
-    ]
-  })
-
-  const [hoverNode, setHoverNode] = useState<HTMLElement | null>(null)
+    } else {
+      setHoverViewNode(undefined)
+    }
+  }
 
   const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
-    const targetNode = GetViewNode(e.target as HTMLElement)
-    setHoverNode(targetNode)
-
-    const validNodePath = GetViewNodePath(e.target as HTMLElement)
   }
 
   const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
@@ -43,16 +65,17 @@ const Canvas = () => {
       <div
         className="app"
         onDragOver={onDragOver}
+        onMouseOver={onMouseOver}
         onDrop={onDrop}
         onDragEnter={(e) => e.preventDefault()}>
-        {app.views.map((view, index) => (
+        {app?.views.map((view, index) => (
           <ViewItem
             viewNode={view as ViewNode}
             key={(view as ViewNode).id}
-            path={`app[${index}]`}></ViewItem>
+            path={`app.views[${index}]`}></ViewItem>
         ))}
       </div>
-      <Prompt hoverNode={hoverNode}></Prompt>
+      <Prompt hoverViewNode={hoverViewNode}></Prompt>
     </div>
   )
 }

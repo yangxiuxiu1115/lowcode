@@ -1,12 +1,12 @@
 .canvas {
-  height: calc(100% - 40px);
-  margin: 20px;
+  height: 100%;
   user-select: none;
   position: relative;
   :global {
     .app {
       background-color: white;
       height: 100%;
+      border: 20px solid #f5f5f5;
     }
   }
 }

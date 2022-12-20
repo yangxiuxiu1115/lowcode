@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { FC } from 'react'
+import { ViewNode } from '@lowcode/concept'
 
-const Structure = () => {
+const Structure: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
   return <div>Structure</div>
 }
 

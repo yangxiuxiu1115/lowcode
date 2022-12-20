@@ -16,7 +16,7 @@ export default class ViewNode extends BaseNode {
   private location: DOMRect | null = null
   private _el: HTMLElement | null = null
 
-  children: (ViewNode | ViewNodeType)[]
+  children: Array<ViewNode | ViewNodeType>
 
   constructor({
     slot,
@@ -24,7 +24,7 @@ export default class ViewNode extends BaseNode {
     children = [],
     name,
     parentname,
-    typename,
+    typename
   }: ViewNodeType) {
     super()
     super.instansition(properties)
@@ -43,7 +43,7 @@ export default class ViewNode extends BaseNode {
     })
     super.update({
       path,
-      content: JSON.stringify(this.property),
+      content: JSON.stringify(this.property)
     })
   }
 
@@ -53,7 +53,7 @@ export default class ViewNode extends BaseNode {
       super.delete({
         path,
         content: (this.children[index] as ViewNode).toJSON(),
-        index,
+        index
       })
       this.children.splice(index, 1)
     } else {
@@ -61,7 +61,7 @@ export default class ViewNode extends BaseNode {
       deleteNode &&
         super.delete({
           path,
-          content: deleteNode.toJSON(),
+          content: deleteNode.toJSON()
         })
     }
   }
@@ -76,7 +76,7 @@ export default class ViewNode extends BaseNode {
     super.add({
       path,
       content: JSON.stringify(content),
-      index,
+      index
     })
   }
 
@@ -86,7 +86,7 @@ export default class ViewNode extends BaseNode {
       property: this.property,
       children: this.children?.map((viewNode: any) => viewNode.toJSON()),
       name: this.name,
-      parentname: this.parentname,
+      parentname: this.parentname
     })
   }
 
