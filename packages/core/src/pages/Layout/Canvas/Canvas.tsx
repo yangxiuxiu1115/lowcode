@@ -17,7 +17,9 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
   handleSelect
 }) => {
   const [app, setApp] = useState<App>()
+
   const [hoverViewNode, setHoverViewNode] = useState<ViewNode>()
+  const [dragOverNode, setDragOverNode] = useState<ViewNode>()
 
   useEffect(() => {
     setApp(
@@ -25,12 +27,53 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
         name: 'app',
         views: [
           {
-            name: '按钮',
-            typename: 'Button',
-            slot: false,
-            text: '按钮',
+            name: '行布局',
+            typename: 'Row',
+            slot: true,
             property: {
-              type: 'primary'
+              gutter: 20
+            },
+            children: [
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              },
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              },
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              },
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              }
+            ]
+          },
+          {
+            name: '自动完成',
+            typename: 'AutoComplete',
+            slot: false,
+            property: {
+              placeholder: '请选择'
             }
           }
         ]
@@ -53,11 +96,27 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
 
   const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
+
+    const targetNode = GetViewNode(e.target as HTMLElement)
+    const path = targetNode?.getAttribute('lowcode-path')
+    if (path) {
+      const DragHoverNodeJson = GetViewNodeJson(app!, path)
+      if (DragHoverNodeJson.id !== dragOverNode?.id) {
+        setDragOverNode(DragHoverNodeJson)
+      }
+    } else {
+      setDragOverNode(undefined)
+    }
   }
 
   const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
     const viewnode = JSON.parse(e.dataTransfer.getData('text/json'))
-    console.log(viewnode)
+    const path = dragOverNode?.getElement()?.getAttribute('lowcode-path')
+    dragOverNode?.add({
+      content: viewnode,
+      path: path!
+    })
+    setDragOverNode(undefined)
   }
 
   return (
@@ -75,7 +134,9 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
             path={`app.views[${index}]`}></ViewItem>
         ))}
       </div>
-      <Prompt hoverViewNode={hoverViewNode}></Prompt>
+      <Prompt
+        hoverViewNode={hoverViewNode}
+        dragOverNode={dragOverNode}></Prompt>
     </div>
   )
 }

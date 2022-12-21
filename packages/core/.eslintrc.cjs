@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/no-implied-eval': 'off',
     'no-new-func': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/member-delimiter-style': 'off'
+    '@typescript-eslint/member-delimiter-style': 'off',
+    'multiline-ternary': 'off'
   }
 }

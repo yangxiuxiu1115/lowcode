@@ -5,7 +5,7 @@ import { ViewNodeType, ActionChange, AppType } from './types'
 const properties = ['views']
 export default class App extends BaseNode {
   name: string
-  views: (ViewNode | ViewNodeType)[]
+  views: Array<ViewNode | ViewNodeType>
 
   constructor({ views = [], name }: AppType) {
     super()
@@ -26,8 +26,8 @@ export default class App extends BaseNode {
       path: 'app',
       content: JSON.stringify({
         content,
-        index,
-      }),
+        index
+      })
     })
   }
 
@@ -41,7 +41,7 @@ export default class App extends BaseNode {
     }
     super.delete({
       path: 'app',
-      content: deleteNode.toJSON(),
+      content: deleteNode.toJSON()
     })
   }
 }

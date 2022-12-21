@@ -24,7 +24,8 @@ export default class ViewNode extends BaseNode {
     children = [],
     name,
     parentname,
-    typename
+    typename,
+    property = {}
   }: ViewNodeType) {
     super()
     super.instansition(properties)
@@ -35,6 +36,7 @@ export default class ViewNode extends BaseNode {
     this.text = text
     this.children = children
     this.parentname = parentname
+    this.property = property
   }
 
   update({ path, content }: ActionChange): void {

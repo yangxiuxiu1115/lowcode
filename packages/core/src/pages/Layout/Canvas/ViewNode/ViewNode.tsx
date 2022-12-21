@@ -6,7 +6,7 @@ const ViewItem: FC<{ viewNode: ViewNode; path: string }> = ({
   viewNode,
   path
 }) => {
-  const { typename, parentname, children, text, property } = viewNode
+  const { typename, parentname, children, text, property, slot } = viewNode
 
   const componentRef = useRef<HTMLElement>()
   const Component = parentname
@@ -14,24 +14,35 @@ const ViewItem: FC<{ viewNode: ViewNode; path: string }> = ({
     : (antd as any)[typename]
 
   useEffect(() => {
-    if (componentRef.current) {
+    console.log(Component)
+    if (componentRef.current instanceof HTMLElement) {
       componentRef.current.setAttribute('lowcode-path', path)
       viewNode.setElement(componentRef.current)
-      viewNode.setRect(componentRef.current.getBoundingClientRect())
     }
   }, [path])
 
+  useEffect(() => {
+    if (componentRef.current instanceof HTMLElement) {
+      viewNode.setRect(componentRef.current.getBoundingClientRect())
+    }
+  }, [children.length])
+
   return (
-    <Component {...property} ref={componentRef}>
-      {children
-        ? children.map((view, index) => (
-            <ViewItem
-              viewNode={view as ViewNode}
-              key={(view as ViewNode).id}
-              path={`${path}.children[${index}]`}></ViewItem>
-          ))
-        : null}
-      {text}
+    <Component
+      {...property}
+      ref={componentRef}>
+      {children.length ? (
+        children.map((view, index) => (
+          <ViewItem
+            viewNode={view as ViewNode}
+            key={(view as ViewNode).id}
+            path={`${path}.children[${index}]`}></ViewItem>
+        ))
+      ) : slot ? (
+        <div className="emptynode"></div>
+      ) : (
+        text
+      )}
     </Component>
   )
 }

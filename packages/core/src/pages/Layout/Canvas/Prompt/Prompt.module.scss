@@ -1,8 +1,14 @@
-.dragover-prompt,
 .select-node,
 .hover-node {
   position: fixed;
   display: none;
   border: 2px dashed aqua;
   cursor: pointer;
+}
+
+.dragover-prompt {
+  position: fixed;
+  display: none;
+  cursor: pointer;
+  background-color: aqua;
 }
