@@ -11,12 +11,12 @@ import type { ViewNode } from '@lowcode/concept'
 import style from './canvas.module.scss'
 import ViewItem from './ViewNode/ViewNode'
 import Prompt from './Prompt/Prompt'
-import { GetViewNode, GetViewNodeJson } from '@/utils/utils'
+import { hoverEffct } from '@/utils/utils'
 
 const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
   handleSelect
 }) => {
-  const [app, setApp] = useState<App>()
+  const [app, setApp] = useState<App>(new App({ name: 'app' }))
 
   const [hoverViewNode, setHoverViewNode] = useState<ViewNode>()
   const [dragOverNode, setDragOverNode] = useState<ViewNode>()
@@ -82,31 +82,13 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
   }, [])
 
   const onMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
-    const targetNode = GetViewNode(e.target as HTMLElement)
-    const path = targetNode?.getAttribute('lowcode-path')
-    if (path) {
-      const hoverNodeJson = GetViewNodeJson(app!, path)
-      if (hoverNodeJson.id !== hoverViewNode?.id) {
-        setHoverViewNode(hoverNodeJson)
-      }
-    } else {
-      setHoverViewNode(undefined)
-    }
+    hoverEffct(e, app, hoverViewNode, setHoverViewNode)
   }
 
   const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
 
-    const targetNode = GetViewNode(e.target as HTMLElement)
-    const path = targetNode?.getAttribute('lowcode-path')
-    if (path) {
-      const DragHoverNodeJson = GetViewNodeJson(app!, path)
-      if (DragHoverNodeJson.id !== dragOverNode?.id) {
-        setDragOverNode(DragHoverNodeJson)
-      }
-    } else {
-      setDragOverNode(undefined)
-    }
+    hoverEffct(e, app, dragOverNode, setDragOverNode)
   }
 
   const onDrop: DragEventHandler<HTMLDivElement> = (e) => {

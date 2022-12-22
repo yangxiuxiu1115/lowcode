@@ -1,5 +1,5 @@
 import { ViewNode } from '@lowcode/concept'
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef, MouseEventHandler } from 'react'
 
 import style from './Prompt.module.scss'
 
@@ -16,7 +16,6 @@ const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
     if (hoverNodeRef.current) {
       if (hoverViewNode) {
         const hoverRect = hoverViewNode.getRect()!
-
         hoverNodeRef.current.style.top = `${hoverRect.top}px`
         hoverNodeRef.current.style.left = `${hoverRect.left}px`
         hoverNodeRef.current.style.width = `${hoverRect.width}px`
@@ -34,6 +33,7 @@ const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
     if (dragHoverNodeRef.current) {
       if (dragOverNode) {
         if (dragOverNode.slot && !dragOverNode.children.length) {
+          dragHoverNodeRef.current.style.display = 'none'
           const empty = dragOverNode.getElement()?.children[0] as HTMLDivElement
           empty.style.backgroundColor = 'aqua'
           lastEmpty = empty
@@ -54,6 +54,13 @@ const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
     }
   }, [dragOverNode])
 
+  // const onMouseOver = (state?: ViewNode) => {
+  //   const handle: MouseEventHandler<HTMLDivElement> = (e) => {
+  //     console.log(e)
+  //   }
+  //   return handle
+  // }
+
   return (
     <>
       <div
@@ -64,7 +71,9 @@ const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
         className={style['hover-node']}
         ref={hoverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
-        onDragOver={(e) => e.preventDefault()}></div>
+        onDragOver={(e) => e.preventDefault()}
+        // onMouseMove={onMouseOver(hoverViewNode)}
+      ></div>
       <div
         className={style['dragover-prompt']}
         ref={dragHoverNodeRef}
