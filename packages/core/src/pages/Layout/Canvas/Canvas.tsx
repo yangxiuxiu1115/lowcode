@@ -3,21 +3,40 @@ import React, {
   FC,
   MouseEventHandler,
   useEffect,
-  useState
+  useState,
+  Dispatch,
+  SetStateAction
 } from 'react'
 import { App } from '@lowcode/concept'
 import type { ViewNode } from '@lowcode/concept'
 
 import style from './canvas.module.scss'
-import ViewItem from './ViewNode/ViewNode'
+import ViewItemV2 from './ViewNode/ViewNodeV2'
 import Prompt from './Prompt/Prompt'
-import { hoverEffct } from '@/utils/utils'
+import { GetViewNode, GetViewNodeJson } from '@/utils/utils'
+
+const hoverEffct = (
+  e: any,
+  app: App,
+  state: ViewNode | undefined,
+  stateAction: Dispatch<SetStateAction<ViewNode | undefined>>
+) => {
+  const targetNode = GetViewNode(e.target)
+  if (!targetNode) {
+    stateAction(undefined)
+    return
+  }
+  const path = targetNode.getAttribute('lowcode-path')!
+  const hoverNodeJson = GetViewNodeJson(app, path)
+  if (hoverNodeJson.id !== state?.id) {
+    stateAction(hoverNodeJson)
+  }
+}
 
 const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
   handleSelect
 }) => {
   const [app, setApp] = useState<App>(new App({ name: 'app' }))
-
   const [hoverViewNode, setHoverViewNode] = useState<ViewNode>()
   const [dragOverNode, setDragOverNode] = useState<ViewNode>()
 
@@ -110,15 +129,18 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
         onDrop={onDrop}
         onDragEnter={(e) => e.preventDefault()}>
         {app?.views.map((view, index) => (
-          <ViewItem
+          <ViewItemV2
             viewNode={view as ViewNode}
             key={(view as ViewNode).id}
-            path={`app.views[${index}]`}></ViewItem>
+            path={`app.views[${index}]`}></ViewItemV2>
         ))}
       </div>
       <Prompt
         hoverViewNode={hoverViewNode}
-        dragOverNode={dragOverNode}></Prompt>
+        dragOverNode={dragOverNode}
+        changeHoverNode={(viewnode) => {
+          setHoverViewNode(viewnode)
+        }}></Prompt>
     </div>
   )
 }

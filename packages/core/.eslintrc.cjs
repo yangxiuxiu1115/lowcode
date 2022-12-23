@@ -20,6 +20,8 @@ module.exports = {
     'no-new-func': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
-    'multiline-ternary': 'off'
+    'multiline-ternary': 'off',
+    'react/no-find-dom-node': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off'
   }
 }

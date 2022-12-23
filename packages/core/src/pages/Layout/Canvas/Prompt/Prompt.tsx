@@ -5,9 +5,16 @@ import style from './Prompt.module.scss'
 
 let lastEmpty: HTMLDivElement | null = null
 
-const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
+interface IProps {
+  hoverViewNode?: ViewNode
+  dragOverNode?: ViewNode
+  changeHoverNode: (el: ViewNode) => void
+}
+
+const Prompt: FC<IProps> = ({
   hoverViewNode,
-  dragOverNode
+  dragOverNode,
+  changeHoverNode
 }) => {
   const hoverNodeRef = useRef<HTMLDivElement>(null)
   const dragHoverNodeRef = useRef<HTMLDivElement>(null)
@@ -54,12 +61,26 @@ const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
     }
   }, [dragOverNode])
 
-  // const onMouseOver = (state?: ViewNode) => {
-  //   const handle: MouseEventHandler<HTMLDivElement> = (e) => {
-  //     console.log(e)
-  //   }
-  //   return handle
-  // }
+  const onMouseMove = (state?: ViewNode) => {
+    const handle: MouseEventHandler<HTMLDivElement> = (e) => {
+      const children = state?.children
+      if (!children?.length) return
+      for (let i = 0; i < children.length; ++i) {
+        const child = children[i]
+        const { x, width, height, y } = (child as ViewNode).getRect()!
+        if (
+          e.clientX - x <= width &&
+          x <= e.clientX &&
+          e.clientY - y <= height &&
+          y <= e.clientY
+        ) {
+          changeHoverNode(child as ViewNode)
+          break
+        }
+      }
+    }
+    return handle
+  }
 
   return (
     <>
@@ -72,8 +93,7 @@ const Prompt: FC<{ hoverViewNode?: ViewNode; dragOverNode?: ViewNode }> = ({
         ref={hoverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
         onDragOver={(e) => e.preventDefault()}
-        // onMouseMove={onMouseOver(hoverViewNode)}
-      ></div>
+        onMouseMove={onMouseMove(hoverViewNode)}></div>
       <div
         className={style['dragover-prompt']}
         ref={dragHoverNodeRef}

@@ -1,8 +1,7 @@
 import { App, ViewNode } from '@lowcode/concept'
-import { Dispatch, SetStateAction } from 'react'
 
-export const isViewNode = (node: any): boolean => {
-  const path = node.style.path
+export const isViewNode = (node: HTMLElement): boolean => {
+  const path = node.getAttribute('lowcode-path')
   if (path) {
     return true
   }
@@ -44,27 +43,4 @@ export const GetViewNodePath = (node: HTMLElement | null): HTMLElement[] => {
   }
 
   return viewNodePath
-}
-
-export const hoverEffct = (
-  e: any,
-  app: App,
-  state: ViewNode | undefined,
-  stateAction: Dispatch<SetStateAction<ViewNode | undefined>>
-) => {
-  const targetNode = GetViewNode(e.target)
-  if (!targetNode) {
-    stateAction(undefined)
-    return
-  }
-  const path = (targetNode.style as any).path
-  const hoverNodeJson = GetViewNodeJson(app, path)
-  if (!hoverNodeJson.getElement()) {
-    // SetElementContainsChild(hoverNodeJson, targetNode)
-    hoverNodeJson.setElement(targetNode)
-  }
-  hoverNodeJson.setRect(targetNode.getBoundingClientRect())
-  if (hoverNodeJson.id !== state?.id) {
-    stateAction(hoverNodeJson)
-  }
 }
