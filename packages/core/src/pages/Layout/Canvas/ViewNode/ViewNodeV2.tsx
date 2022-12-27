@@ -15,6 +15,7 @@ class ViewItemV2 extends Component<Props> {
     const dom = findDOMNode(this) as HTMLElement
     if (dom) {
       dom.setAttribute('lowcode-path', path)
+      dom.setAttribute('lowcode-name', viewNode.name)
       viewNode.setElement(dom)
       viewNode.setRect(dom.getBoundingClientRect())
     }

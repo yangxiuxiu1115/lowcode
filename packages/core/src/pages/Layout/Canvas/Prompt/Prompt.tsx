@@ -1,28 +1,84 @@
+import React, {
+  FC,
+  useEffect,
+  useRef,
+  MouseEventHandler,
+  useState,
+  DragEventHandler,
+  EventHandler
+} from 'react'
+import { Dropdown } from 'antd'
+import { GetViewNodePath } from '@/utils/utils'
 import { ViewNode } from '@lowcode/concept'
-import React, { FC, useEffect, useRef, MouseEventHandler } from 'react'
 
 import style from './Prompt.module.scss'
 
 let lastEmpty: HTMLDivElement | null = null
 
+type ChangeNodeFunc = (el: ViewNode | undefined) => void
 interface IProps {
-  hoverViewNode?: ViewNode
+  hoverNode?: ViewNode
   dragOverNode?: ViewNode
-  changeHoverNode: (el: ViewNode) => void
+  selectNode?: ViewNode
+  changeHoverNode: ChangeNodeFunc
+  changeDragOverNode: ChangeNodeFunc
+  changeSelectNode: ChangeNodeFunc
+}
+
+const MoveHandle: <T extends EventHandler<any>>(
+  state: ViewNode | undefined,
+  changeState: ChangeNodeFunc,
+  preventDefault?: boolean,
+  effect?: (e: Event) => void
+) => T = (state, changeState, preventDefault = false, effect) => {
+  const handle: any = (e: any) => {
+    if (preventDefault) {
+      e.preventDefault()
+    }
+    const children = state?.children
+    if (!children?.length) {
+      if (effect) {
+        effect(e)
+      }
+      return
+    }
+    for (let i = 0; i < children.length; ++i) {
+      const child = children[i]
+      const { x, width, height, y } = (child as ViewNode).getRect()!
+      if (
+        e.clientX - x <= width &&
+        x <= e.clientX &&
+        e.clientY - y <= height &&
+        y <= e.clientY
+      ) {
+        changeState(child as ViewNode)
+        return
+      }
+    }
+    if (effect) {
+      effect(e)
+    }
+  }
+  return handle
 }
 
 const Prompt: FC<IProps> = ({
-  hoverViewNode,
+  hoverNode,
   dragOverNode,
-  changeHoverNode
+  selectNode,
+  changeHoverNode,
+  changeDragOverNode,
+  changeSelectNode
 }) => {
+  const [nodePath, setNodePath] = useState<HTMLElement[]>([])
   const hoverNodeRef = useRef<HTMLDivElement>(null)
-  const dragHoverNodeRef = useRef<HTMLDivElement>(null)
+  const dragOverNodeRef = useRef<HTMLDivElement>(null)
+  const selectNodeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (hoverNodeRef.current) {
-      if (hoverViewNode) {
-        const hoverRect = hoverViewNode.getRect()!
+      if (hoverNode) {
+        const hoverRect = hoverNode.getRect()!
         hoverNodeRef.current.style.top = `${hoverRect.top}px`
         hoverNodeRef.current.style.left = `${hoverRect.left}px`
         hoverNodeRef.current.style.width = `${hoverRect.width}px`
@@ -32,15 +88,15 @@ const Prompt: FC<IProps> = ({
         hoverNodeRef.current.style.display = 'none'
       }
     }
-  }, [hoverViewNode])
+  }, [hoverNode])
 
   useEffect(() => {
     if (lastEmpty) lastEmpty.style.backgroundColor = 'gainsboro'
-
-    if (dragHoverNodeRef.current) {
+    const el = dragOverNodeRef.current
+    if (el) {
       if (dragOverNode) {
         if (dragOverNode.slot && !dragOverNode.children.length) {
-          dragHoverNodeRef.current.style.display = 'none'
+          el.style.display = 'none'
           const empty = dragOverNode.getElement()?.children[0] as HTMLDivElement
           empty.style.backgroundColor = 'aqua'
           lastEmpty = empty
@@ -48,55 +104,84 @@ const Prompt: FC<IProps> = ({
         }
 
         const hoverRect = dragOverNode.getRect()!
-        dragHoverNodeRef.current.style.top = `${
-          hoverRect.top + hoverRect.height
-        }px`
-        dragHoverNodeRef.current.style.left = `${hoverRect.left}px`
-        dragHoverNodeRef.current.style.width = `${hoverRect.width}px`
-        dragHoverNodeRef.current.style.height = '2px'
-        dragHoverNodeRef.current.style.display = 'block'
+        el.style.top = `${hoverRect.top + hoverRect.height}px`
+        el.style.left = `${hoverRect.left}px`
+        el.style.width = `${hoverRect.width}px`
+        el.style.height = '2px'
+        el.style.display = 'block'
       } else {
-        dragHoverNodeRef.current.style.display = 'none'
+        el.style.display = 'none'
       }
     }
   }, [dragOverNode])
 
-  const onMouseMove = (state?: ViewNode) => {
-    const handle: MouseEventHandler<HTMLDivElement> = (e) => {
-      const children = state?.children
-      if (!children?.length) return
-      for (let i = 0; i < children.length; ++i) {
-        const child = children[i]
-        const { x, width, height, y } = (child as ViewNode).getRect()!
-        if (
-          e.clientX - x <= width &&
-          x <= e.clientX &&
-          e.clientY - y <= height &&
-          y <= e.clientY
-        ) {
-          changeHoverNode(child as ViewNode)
-          break
-        }
+  useEffect(() => {
+    const el = selectNodeRef.current
+    if (el) {
+      if (selectNode) {
+        const { top, width, height, left } = selectNode.getRect()!
+
+        el.style.top = `${top}px`
+        el.style.left = `${left}px`
+        el.style.width = `${width}px`
+        el.style.height = `${height}px`
+        el.style.display = 'block'
+
+        const path = GetViewNodePath(selectNode.getElement())
+        setNodePath(path)
+        console.log(nodePath)
+      } else {
+        el.style.display = 'none'
+
+        setNodePath([])
       }
     }
-    return handle
+  }, [selectNode])
+
+  const onClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (hoverNode) {
+      changeSelectNode(hoverNode)
+    }
+  }
+
+  const selectNodeMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (selectNode) {
+      changeHoverNode(selectNode)
+    }
   }
 
   return (
     <>
       <div
         className={style['select-node']}
+        ref={selectNodeRef}
         onDragEnter={(e) => e.preventDefault()}
-        onDragOver={(e) => e.preventDefault()}></div>
+        onDragOver={MoveHandle<DragEventHandler<HTMLDivElement>>(
+          selectNode,
+          changeDragOverNode,
+          true,
+          (e) => {
+            changeDragOverNode(selectNode)
+          }
+        )}
+        onMouseOver={selectNodeMouseOver}>
+        <Dropdown>
+          <div className=""></div>
+        </Dropdown>
+      </div>
       <div
         className={style['hover-node']}
         ref={hoverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
         onDragOver={(e) => e.preventDefault()}
-        onMouseMove={onMouseMove(hoverViewNode)}></div>
+        onMouseMove={MoveHandle<MouseEventHandler<HTMLDivElement>>(
+          hoverNode,
+          changeHoverNode
+        )}
+        onClick={onClick}></div>
       <div
         className={style['dragover-prompt']}
-        ref={dragHoverNodeRef}
+        ref={dragOverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
         onDragOver={(e) => e.preventDefault()}></div>
     </>

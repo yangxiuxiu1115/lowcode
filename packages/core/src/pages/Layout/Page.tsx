@@ -14,7 +14,7 @@ const { Sider, Content } = Layout
 const Page = () => {
   const [selectNode, setSelectNode] = useState<ViewNode>()
 
-  const handleSelect = (node: ViewNode) => {
+  const handleSelect = (node: ViewNode | undefined) => {
     setSelectNode(node)
   }
 
@@ -25,7 +25,7 @@ const Page = () => {
           <Structure selectNode={selectNode}></Structure>
         </Sider>
         <Content>
-          <Canvas handleSelect={handleSelect}></Canvas>
+          <Canvas handleSelect={handleSelect} selectNode={selectNode}></Canvas>
         </Content>
         <Sider theme="light" width={250}>
           <Material selectNode={selectNode}></Material>

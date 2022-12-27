@@ -2,7 +2,8 @@ import { App, ViewNode } from '@lowcode/concept'
 
 export const isViewNode = (node: HTMLElement): boolean => {
   const path = node.getAttribute('lowcode-path')
-  if (path) {
+  const name = node.getAttribute('lowcode-name')
+  if (path && name) {
     return true
   }
   return false
@@ -37,7 +38,7 @@ export const GetViewNodePath = (node: HTMLElement | null): HTMLElement[] => {
   const viewNodePath: HTMLElement[] = []
   while (node) {
     if (isViewNode(node)) {
-      viewNodePath.unshift(node)
+      viewNodePath.push(node)
     }
     node = node.parentElement
   }

@@ -1,11 +1,15 @@
-.select-node,
 .hover-node {
   position: fixed;
   display: none;
   border: 2px dashed aqua;
   cursor: pointer;
 }
-
+.select-node {
+  position: fixed;
+  display: none;
+  border: 1px solid aqua;
+  cursor: pointer;
+}
 .dragover-prompt {
   position: fixed;
   display: none;

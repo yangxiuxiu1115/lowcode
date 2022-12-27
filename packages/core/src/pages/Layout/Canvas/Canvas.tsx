@@ -33,11 +33,12 @@ const hoverEffct = (
   }
 }
 
-const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
-  handleSelect
-}) => {
+const Canvas: FC<{
+  handleSelect: (node: ViewNode | undefined) => void
+  selectNode?: ViewNode
+}> = ({ handleSelect, selectNode }) => {
   const [app, setApp] = useState<App>(new App({ name: 'app' }))
-  const [hoverViewNode, setHoverViewNode] = useState<ViewNode>()
+  const [hoverNode, setHoverNode] = useState<ViewNode>()
   const [dragOverNode, setDragOverNode] = useState<ViewNode>()
 
   useEffect(() => {
@@ -101,12 +102,11 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
   }, [])
 
   const onMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
-    hoverEffct(e, app, hoverViewNode, setHoverViewNode)
+    hoverEffct(e, app, hoverNode, setHoverNode)
   }
 
   const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
-
     hoverEffct(e, app, dragOverNode, setDragOverNode)
   }
 
@@ -127,7 +127,10 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
         onDragOver={onDragOver}
         onMouseOver={onMouseOver}
         onDrop={onDrop}
-        onDragEnter={(e) => e.preventDefault()}>
+        onDragEnter={(e) => e.preventDefault()}
+        onClick={() => {
+          handleSelect(undefined)
+        }}>
         {app?.views.map((view, index) => (
           <ViewItemV2
             viewNode={view as ViewNode}
@@ -136,10 +139,17 @@ const Canvas: FC<{ handleSelect: (node: ViewNode) => void }> = ({
         ))}
       </div>
       <Prompt
-        hoverViewNode={hoverViewNode}
+        hoverNode={hoverNode}
         dragOverNode={dragOverNode}
+        selectNode={selectNode}
         changeHoverNode={(viewnode) => {
-          setHoverViewNode(viewnode)
+          setHoverNode(viewnode)
+        }}
+        changeDragOverNode={(viewnode) => {
+          setDragOverNode(viewnode)
+        }}
+        changeSelectNode={(viewnode) => {
+          handleSelect(viewnode)
         }}></Prompt>
     </div>
   )
