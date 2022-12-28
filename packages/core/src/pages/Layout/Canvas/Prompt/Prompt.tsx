@@ -70,10 +70,11 @@ const Prompt: FC<IProps> = ({
   changeDragOverNode,
   changeSelectNode
 }) => {
-  const [nodePath, setNodePath] = useState<HTMLElement[]>([])
+  const [nodePath, setNodePath] = useState<ViewNode[]>([])
   const hoverNodeRef = useRef<HTMLDivElement>(null)
   const dragOverNodeRef = useRef<HTMLDivElement>(null)
   const selectNodeRef = useRef<HTMLDivElement>(null)
+  const selectNodeItemRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (hoverNodeRef.current) {
@@ -127,9 +128,8 @@ const Prompt: FC<IProps> = ({
         el.style.height = `${height}px`
         el.style.display = 'block'
 
-        const path = GetViewNodePath(selectNode.getElement())
+        const path = GetViewNodePath(selectNode.parent!)
         setNodePath(path)
-        console.log(nodePath)
       } else {
         el.style.display = 'none'
 
@@ -145,6 +145,7 @@ const Prompt: FC<IProps> = ({
   }
 
   const selectNodeMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (e.target === selectNodeItemRef.current) return
     if (selectNode) {
       changeHoverNode(selectNode)
     }
@@ -165,8 +166,16 @@ const Prompt: FC<IProps> = ({
           }
         )}
         onMouseOver={selectNodeMouseOver}>
-        <Dropdown>
-          <div className=""></div>
+        <Dropdown
+          menu={{
+            items: nodePath.map((node) => ({
+              key: node.id,
+              label: node.name
+            }))
+          }}>
+          <span className="node-path" ref={selectNodeItemRef}>
+            {selectNode?.name}
+          </span>
         </Dropdown>
       </div>
       <div

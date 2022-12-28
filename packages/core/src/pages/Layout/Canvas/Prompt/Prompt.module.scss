@@ -9,6 +9,13 @@
   display: none;
   border: 1px solid aqua;
   cursor: pointer;
+  :global {
+    .node-path {
+      background-color: aqua;
+      position: absolute;
+      top: -20px;
+    }
+  }
 }
 .dragover-prompt {
   position: fixed;

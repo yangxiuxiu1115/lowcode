@@ -34,13 +34,11 @@ export const GetValidViewNode = (node: HTMLElement): HTMLElement | null => {
   return node.parentElement && GetValidViewNode(node.parentElement)
 }
 
-export const GetViewNodePath = (node: HTMLElement | null): HTMLElement[] => {
-  const viewNodePath: HTMLElement[] = []
-  while (node) {
-    if (isViewNode(node)) {
-      viewNodePath.push(node)
-    }
-    node = node.parentElement
+export const GetViewNodePath = (node: ViewNode | App): ViewNode[] => {
+  const viewNodePath: ViewNode[] = []
+  while (node instanceof ViewNode) {
+    viewNodePath.push(node)
+    node = node.parent!
   }
 
   return viewNodePath
