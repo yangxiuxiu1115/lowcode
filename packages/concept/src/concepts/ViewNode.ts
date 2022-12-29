@@ -1,8 +1,8 @@
 import BaseNode from './BaseNode'
 import App from './App'
-import { ActionChange, ViewNodeType } from './types'
+import type { ActionChange, ViewNodeType, IProperties } from './types'
 
-const properties = ['children']
+const properties: IProperties[] = [{ key: 'children', type: 'ViewNode' }]
 export default class ViewNode extends BaseNode {
   type = 'ViewNode'
   property: { [key: string]: number | string } = {}
@@ -52,19 +52,13 @@ export default class ViewNode extends BaseNode {
   delete(actionChange: ActionChange) {
     const { path, index } = actionChange
     if (index) {
+      const deleteNode = this.children[index] as ViewNode
+      this.children.splice(index, 1)
       super.delete({
         path,
-        content: (this.children[index] as ViewNode).toJSON(),
+        content: deleteNode.toJSON(),
         index
       })
-      this.children.splice(index, 1)
-    } else {
-      const deleteNode = this.children.pop() as ViewNode
-      deleteNode &&
-        super.delete({
-          path,
-          content: deleteNode.toJSON()
-        })
     }
   }
 
@@ -77,18 +71,19 @@ export default class ViewNode extends BaseNode {
     }
     super.add({
       path,
-      content: JSON.stringify(content),
-      index
+      index: index ? index : this.children.length - 1
     })
   }
 
   toJSON(): string {
     return JSON.stringify({
-      type: this.type,
       property: this.property,
       children: this.children?.map((viewNode: any) => viewNode.toJSON()),
       name: this.name,
-      parentname: this.parentname
+      parentname: this.parentname,
+      slot: this.slot,
+      text: this.text,
+      typename: this.typename
     })
   }
 

@@ -30,5 +30,3 @@ class LowCodeEvent {
   }
 }
 export const event = new LowCodeEvent()
-
-

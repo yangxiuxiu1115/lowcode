@@ -7,7 +7,7 @@ export let isRevocate = false
 
 const operation = (operate: ActionItem, app: App) => {
   const { content, action, path, index } = operate
-  const node: ViewNode = new Function('app', `return ${path}`)(app) as ViewNode
+  const node: ViewNode = new Function('app', `return ${path!}`)(app) as ViewNode
   switch (action) {
     case 'add':
       node.delete({ path, index })
@@ -17,7 +17,6 @@ const operation = (operate: ActionItem, app: App) => {
       return
     case 'update':
       node.update({ path, content: JSON.parse(content) })
-      return
   }
 }
 

@@ -1,47 +1,15 @@
 import BaseNode from './BaseNode'
-import ViewNode from './ViewNode'
-import { ViewNodeType, ActionChange, AppType } from './types'
+import View from './View'
+import type { AppType, ViewType } from './types'
 
-const properties = ['views']
 export default class App extends BaseNode {
   name: string
-  views: Array<ViewNode | ViewNodeType>
+  view: ViewType | View
 
-  constructor({ views = [], name }: AppType) {
+  constructor({ view, name }: AppType) {
     super()
-    super.instansition(properties)
 
     this.name = name
-    this.views = views
-  }
-
-  add(actionChange: ActionChange) {
-    const { index, content } = actionChange
-    if (index) {
-      this.views.splice(index, 0, content)
-    } else {
-      this.views.push(content)
-    }
-    super.add({
-      path: 'app',
-      content: JSON.stringify({
-        content,
-        index
-      })
-    })
-  }
-
-  delete(actionChange: ActionChange) {
-    const { index } = actionChange
-    const deleteNode = (
-      index ? this.views[index] : this.views.pop()
-    ) as ViewNode
-    if (index) {
-      this.views.splice(index, 1)
-    }
-    super.delete({
-      path: 'app',
-      content: deleteNode.toJSON()
-    })
+    this.view = new View(view)
   }
 }

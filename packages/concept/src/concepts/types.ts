@@ -1,8 +1,9 @@
+import View from './View'
 import ViewNode from './ViewNode'
 
 export enum Concept {
   ViewNode = 'ViewNode',
-  Animate = 'Animate',
+  Animate = 'Animate'
 }
 
 export interface ActionType {
@@ -21,11 +22,24 @@ export interface ViewNodeType {
   property?: { [key: string]: number | string }
   slot: boolean
   text?: string
-  children?: (ViewNodeType | ViewNode)[]
+  children?: Array<ViewNodeType | ViewNode>
   parentname?: string
 }
 
 export interface AppType {
-  views?: (ViewNodeType | ViewNode)[]
+  view: ViewType
   name: string
+}
+
+export interface ViewType {
+  children?: Array<View | ViewType>
+  render?: Array<ViewNodeType | ViewNode>
+  states?: any[]
+  name: string
+}
+
+export type PropertyType = 'ViewNode' | 'View'
+export interface IProperties {
+  key: string
+  type: PropertyType
 }

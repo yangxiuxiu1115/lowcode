@@ -37,7 +37,9 @@ const Canvas: FC<{
   handleSelect: (node: ViewNode | undefined) => void
   selectNode?: ViewNode
 }> = ({ handleSelect, selectNode }) => {
-  const [app, setApp] = useState<App>(new App({ name: 'app' }))
+  const [app, setApp] = useState<App>(
+    new App({ name: 'app', view: { name: 'view' } })
+  )
   const [hoverNode, setHoverNode] = useState<ViewNode>()
   const [dragOverNode, setDragOverNode] = useState<ViewNode>()
 
@@ -45,58 +47,61 @@ const Canvas: FC<{
     setApp(
       new App({
         name: 'app',
-        views: [
-          {
-            name: '行布局',
-            typename: 'Row',
-            slot: true,
-            property: {
-              gutter: 20
+        view: {
+          name: 'view',
+          render: [
+            {
+              name: '行布局',
+              typename: 'Row',
+              slot: true,
+              property: {
+                gutter: 20
+              },
+              children: [
+                {
+                  name: '列布局',
+                  typename: 'Col',
+                  slot: true,
+                  property: {
+                    span: 6
+                  }
+                },
+                {
+                  name: '列布局',
+                  typename: 'Col',
+                  slot: true,
+                  property: {
+                    span: 6
+                  }
+                },
+                {
+                  name: '列布局',
+                  typename: 'Col',
+                  slot: true,
+                  property: {
+                    span: 6
+                  }
+                },
+                {
+                  name: '列布局',
+                  typename: 'Col',
+                  slot: true,
+                  property: {
+                    span: 6
+                  }
+                }
+              ]
             },
-            children: [
-              {
-                name: '列布局',
-                typename: 'Col',
-                slot: true,
-                property: {
-                  span: 6
-                }
-              },
-              {
-                name: '列布局',
-                typename: 'Col',
-                slot: true,
-                property: {
-                  span: 6
-                }
-              },
-              {
-                name: '列布局',
-                typename: 'Col',
-                slot: true,
-                property: {
-                  span: 6
-                }
-              },
-              {
-                name: '列布局',
-                typename: 'Col',
-                slot: true,
-                property: {
-                  span: 6
-                }
+            {
+              name: '自动完成',
+              typename: 'AutoComplete',
+              slot: false,
+              property: {
+                placeholder: '请选择'
               }
-            ]
-          },
-          {
-            name: '自动完成',
-            typename: 'AutoComplete',
-            slot: false,
-            property: {
-              placeholder: '请选择'
             }
-          }
-        ]
+          ]
+        }
       })
     )
   }, [])
@@ -131,11 +136,11 @@ const Canvas: FC<{
         onClick={() => {
           handleSelect(undefined)
         }}>
-        {app?.views.map((view, index) => (
+        {app?.view.render?.map((view, index) => (
           <ViewItemV2
             viewNode={view as ViewNode}
             key={(view as ViewNode).id}
-            path={`app.views[${index}]`}></ViewItemV2>
+            path={`app.views.render[${index}]`}></ViewItemV2>
         ))}
       </div>
       <Prompt

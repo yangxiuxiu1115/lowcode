@@ -18,6 +18,10 @@ module.exports = {
   plugins: ['react'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/strict-boolean-expressions': 'off'
+    '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/no-implied-eval': 'off',
+    'no-new-func': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'no-unneeded-ternary': 'off'
   }
 }
