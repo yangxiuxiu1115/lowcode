@@ -1,0 +1,8 @@
+.structure {
+  height: 100%;
+  :global {
+    .ant-tabs-left {
+      height: 100%;
+    }
+  }
+}

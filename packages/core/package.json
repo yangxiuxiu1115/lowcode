@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.8.0",
     "@lowcode/concept": "workspace:*",
     "animate.css": "^4.1.1",
     "antd": "^5.0.2",

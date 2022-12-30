@@ -32,6 +32,7 @@ importers:
 
   packages/core:
     specifiers:
+      '@ant-design/icons': ^4.8.0
       '@lowcode/concept': workspace:*
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
@@ -53,6 +54,7 @@ importers:
       typescript: '*'
       vite: ^3.1.0
     dependencies:
+      '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@lowcode/concept': link:../concept
       animate.css: 4.1.1
       antd: 5.0.2_biqbaboplfbrettd7655fr4n2y
@@ -137,8 +139,8 @@ packages:
     resolution: {integrity: sha512-EB0iwlKDGpG93hW8f85CTJTs4SvMX7tt5ceupvhALp1IF44SeUFOMhKUOYqpsoYWQKAOuTRDMqn75rEaKDp0Xw==}
     dev: false
 
-  /@ant-design/icons/4.7.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-aoB4Z7JA431rt6d4u+8xcNPPCrdufSRMUOpxa1ab6mz1JCQZOEVolj2WVs/tDFmN62zzK30mNelEsprLYsSF3g==}
+  /@ant-design/icons/4.8.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-T89P2jG2vM7OJ0IfGx2+9FC5sQjtTzRSz+mCHTXkFn/ELZc2YpfStmYHmqzq2Jx55J0F7+O6i5/ZKFSVNWCKNg==}
     engines: {node: '>=8'}
     peerDependencies:
       react: '>=16.0.0'
@@ -1027,7 +1029,7 @@ packages:
     dependencies:
       '@ant-design/colors': 6.0.0
       '@ant-design/cssinjs': 1.0.2_biqbaboplfbrettd7655fr4n2y
-      '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
+      '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@ant-design/react-slick': 0.29.2_react@18.2.0
       '@babel/runtime': 7.19.4
       '@ctrl/tinycolor': 3.4.1
