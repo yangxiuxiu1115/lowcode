@@ -7,7 +7,7 @@ import React, {
   Dispatch,
   SetStateAction
 } from 'react'
-import { App } from '@lowcode/concept'
+import { View } from '@lowcode/concept'
 import type { ViewNode } from '@lowcode/concept'
 
 import style from './canvas.module.scss'
@@ -17,7 +17,7 @@ import { GetViewNode, GetViewNodeJson } from '@/utils/utils'
 
 const hoverEffct = (
   e: any,
-  app: App,
+  app: View,
   state: ViewNode | undefined,
   stateAction: Dispatch<SetStateAction<ViewNode | undefined>>
 ) => {
@@ -37,71 +37,66 @@ const Canvas: FC<{
   handleSelect: (node: ViewNode | undefined) => void
   selectNode?: ViewNode
 }> = ({ handleSelect, selectNode }) => {
-  const [app, setApp] = useState<App>(
-    new App({ name: 'app', view: { name: 'view' } })
-  )
+  const [app, setApp] = useState<View>(new View({ name: 'view' }))
   const [hoverNode, setHoverNode] = useState<ViewNode>()
   const [dragOverNode, setDragOverNode] = useState<ViewNode>()
 
   useEffect(() => {
     setApp(
-      new App({
-        name: 'app',
-        view: {
-          name: 'view',
-          render: [
-            {
-              name: '行布局',
-              typename: 'Row',
-              slot: true,
-              property: {
-                gutter: 20
-              },
-              children: [
-                {
-                  name: '列布局',
-                  typename: 'Col',
-                  slot: true,
-                  property: {
-                    span: 6
-                  }
-                },
-                {
-                  name: '列布局',
-                  typename: 'Col',
-                  slot: true,
-                  property: {
-                    span: 6
-                  }
-                },
-                {
-                  name: '列布局',
-                  typename: 'Col',
-                  slot: true,
-                  property: {
-                    span: 6
-                  }
-                },
-                {
-                  name: '列布局',
-                  typename: 'Col',
-                  slot: true,
-                  property: {
-                    span: 6
-                  }
-                }
-              ]
+      new View({
+        name: 'view',
+        render: [
+          {
+            name: '行布局',
+            typename: 'Row',
+            slot: true,
+            property: {
+              gutter: 20
             },
-            {
-              name: '自动完成',
-              typename: 'AutoComplete',
-              slot: false,
-              property: {
-                placeholder: '请选择'
+            children: [
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              },
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              },
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
+              },
+              {
+                name: '列布局',
+                typename: 'Col',
+                slot: true,
+                property: {
+                  span: 6
+                }
               }
+            ]
+          },
+          {
+            name: '自动完成',
+            typename: 'AutoComplete',
+            slot: false,
+            property: {
+              placeholder: '请选择'
             }
-          ]
-        }
+          }
+        ]
       })
     )
   }, [])
@@ -136,11 +131,12 @@ const Canvas: FC<{
         onClick={() => {
           handleSelect(undefined)
         }}>
-        {app?.view.render?.map((view, index) => (
+        {app.render?.map((view, index) => (
           <ViewItemV2
             viewNode={view as ViewNode}
             key={(view as ViewNode).id}
-            path={`app.views.render[${index}]`}></ViewItemV2>
+            path={`app.render[${index}]`}
+            index={index}></ViewItemV2>
         ))}
       </div>
       <Prompt

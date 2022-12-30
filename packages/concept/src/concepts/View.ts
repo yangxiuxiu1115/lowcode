@@ -1,6 +1,5 @@
 import BaseNode from './BaseNode'
 import ViewNode from './ViewNode'
-import App from './App'
 import type { ActionChange, ViewNodeType, ViewType, IProperties } from './types'
 
 const properties: IProperties[] = [
@@ -10,7 +9,7 @@ const properties: IProperties[] = [
 
 export default class View extends BaseNode {
   type: 'View' = 'View'
-  parent: App | View | null = null
+  parent: View | null = null
 
   name: string
   render: Array<ViewNode | ViewNodeType>
@@ -50,7 +49,7 @@ export default class View extends BaseNode {
     }
   }
 
-  setParent(parent: View | App) {
+  setParent(parent: View) {
     this.parent = parent
   }
 

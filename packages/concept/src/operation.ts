@@ -1,11 +1,11 @@
-import { App, ViewNode } from './concepts'
+import { View, ViewNode } from './concepts'
 import { ActionItem } from './concepts/types'
 import { event } from './event'
 export const RevocationStack: ActionItem[] = []
 export const FallbackStack: ActionItem[] = []
 export let isRevocate = false
 
-const operation = (operate: ActionItem, app: App) => {
+const operation = (operate: ActionItem, app: View) => {
   const { content, action, path, index } = operate
   const node: ViewNode = new Function('app', `return ${path!}`)(app) as ViewNode
   switch (action) {
@@ -31,7 +31,7 @@ event.subscribe('onChange', (payload: ActionItem) => {
   event.publish('storage', payload)
 })
 
-export const revocation = (app: App) => {
+export const revocation = (app: View) => {
   const operate = RevocationStack.pop()
   if (operate) {
     isRevocate = true
@@ -39,7 +39,7 @@ export const revocation = (app: App) => {
   }
 }
 
-export const fallback = (app: App) => {
+export const fallback = (app: View) => {
   const operate = FallbackStack.pop()
   if (operate) {
     operation(operate, app)

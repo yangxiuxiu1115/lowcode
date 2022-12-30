@@ -6,26 +6,28 @@ const p = Promise.resolve()
 let isFlushPending = false
 
 event.subscribe('storage', (payload: ActionItem) => {
-  queueJobs(payload)
+  queueJobs(payload).catch((res) => {
+    console.log(res)
+  })
 })
 
-export function nextTick(fn: () => void) {
-  return p.then(fn)
+export async function nextTick(fn: () => void) {
+  return await p.then(fn)
 }
 
-export function queueJobs(job: ActionItem) {
+export async function queueJobs(job: ActionItem) {
   if (!queue.includes(job)) {
     queue.push(job)
 
-    queueFlush()
+    await queueFlush()
   }
 }
 
-export function queueFlush() {
+export async function queueFlush() {
   if (isFlushPending) return
 
   isFlushPending = true
-  nextTick(flushJobs)
+  await nextTick(flushJobs)
 }
 
 export function flushJobs() {

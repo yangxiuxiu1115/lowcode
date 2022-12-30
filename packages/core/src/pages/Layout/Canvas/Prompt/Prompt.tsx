@@ -74,7 +74,6 @@ const Prompt: FC<IProps> = ({
   const hoverNodeRef = useRef<HTMLDivElement>(null)
   const dragOverNodeRef = useRef<HTMLDivElement>(null)
   const selectNodeRef = useRef<HTMLDivElement>(null)
-  const selectNodeItemRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (hoverNodeRef.current) {
@@ -145,7 +144,6 @@ const Prompt: FC<IProps> = ({
   }
 
   const selectNodeMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
-    if (e.target === selectNodeItemRef.current) return
     if (selectNode) {
       changeHoverNode(selectNode)
     }
@@ -173,7 +171,7 @@ const Prompt: FC<IProps> = ({
               label: node.name
             }))
           }}>
-          <span className="node-path" ref={selectNodeItemRef}>
+          <span className="node-path">
             {selectNode?.name}
           </span>
         </Dropdown>

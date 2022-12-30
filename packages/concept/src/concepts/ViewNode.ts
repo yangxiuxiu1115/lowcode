@@ -1,5 +1,5 @@
 import BaseNode from './BaseNode'
-import App from './App'
+import View from './View'
 import type { ActionChange, ViewNodeType, IProperties } from './types'
 
 const properties: IProperties[] = [{ key: 'children', type: 'ViewNode' }]
@@ -10,7 +10,7 @@ export default class ViewNode extends BaseNode {
   name: string
   slot: boolean
   text?: string
-  parent?: ViewNode | App
+  parent?: ViewNode | View
   parentname?: string
 
   private location: DOMRect | null = null
@@ -87,7 +87,7 @@ export default class ViewNode extends BaseNode {
     })
   }
 
-  setParent(parent: App | ViewNode) {
+  setParent(parent: View | ViewNode) {
     this.parent = parent
   }
 

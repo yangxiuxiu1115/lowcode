@@ -26,11 +26,6 @@ export interface ViewNodeType {
   parentname?: string
 }
 
-export interface AppType {
-  view: ViewType
-  name: string
-}
-
 export interface ViewType {
   children?: Array<View | ViewType>
   render?: Array<ViewNodeType | ViewNode>

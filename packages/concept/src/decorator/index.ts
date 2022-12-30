@@ -1,4 +1,4 @@
-import { App, ViewNode, BaseNode, ViewNodeType } from '../concepts'
+import { ViewNode, BaseNode, ViewNodeType, View } from '../concepts'
 import type { PropertyType } from '../concepts'
 
 const Instansition = new Map()
@@ -15,7 +15,7 @@ const getComponent = (type: PropertyType) => {
 
 const defineReactive = <T extends Object[]>(
   object: T,
-  parent: App | ViewNode,
+  parent: View | ViewNode,
   type: PropertyType
 ) => {
   return new Proxy(object, {

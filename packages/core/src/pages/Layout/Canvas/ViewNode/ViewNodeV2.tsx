@@ -7,15 +7,16 @@ import { ViewNode } from '@lowcode/concept'
 interface Props {
   viewNode: ViewNode
   path: string
+  index: number
 }
 
 class ViewItemV2 extends Component<Props> {
   componentDidMount(): void {
-    const { viewNode, path } = this.props
+    const { viewNode, path, index } = this.props
     const dom = findDOMNode(this) as HTMLElement
     if (dom) {
       dom.setAttribute('lowcode-path', path)
-      dom.setAttribute('lowcode-name', viewNode.name)
+      dom.setAttribute('lowcode-index', `${index}`)
       viewNode.setElement(dom)
       viewNode.setRect(dom.getBoundingClientRect())
     }
@@ -46,7 +47,8 @@ class ViewItemV2 extends Component<Props> {
             <ViewItemV2
               viewNode={view as ViewNode}
               key={(view as ViewNode).id}
-              path={`${path}.children[${index}]`}></ViewItemV2>
+              path={`${path}.children[${index}]`}
+              index={index}></ViewItemV2>
           ))
         ) : slot ? (
           <div className="emptynode"></div>

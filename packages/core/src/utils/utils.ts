@@ -1,9 +1,9 @@
-import { App, ViewNode } from '@lowcode/concept'
+import { View, ViewNode } from '@lowcode/concept'
 
 export const isViewNode = (node: HTMLElement): boolean => {
   const path = node.getAttribute('lowcode-path')
-  const name = node.getAttribute('lowcode-name')
-  if (path && name) {
+  const index = node.getAttribute('lowcode-index')
+  if (path && index) {
     return true
   }
   return false
@@ -15,7 +15,7 @@ export const isEmptyNode = (node: HTMLElement): boolean => {
   return isEmpty
 }
 
-export const GetViewNodeJson = (app: App, path: string): ViewNode => {
+export const GetViewNodeJson = (app: View, path: string): ViewNode => {
   return new Function('app', `return ${path}`)(app)
 }
 
@@ -34,7 +34,7 @@ export const GetValidViewNode = (node: HTMLElement): HTMLElement | null => {
   return node.parentElement && GetValidViewNode(node.parentElement)
 }
 
-export const GetViewNodePath = (node: ViewNode | App): ViewNode[] => {
+export const GetViewNodePath = (node: ViewNode | View): ViewNode[] => {
   const viewNodePath: ViewNode[] = []
   while (node instanceof ViewNode) {
     viewNodePath.push(node)
