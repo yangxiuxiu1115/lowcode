@@ -138,6 +138,7 @@ const Prompt: FC<IProps> = ({
   }, [selectNode])
 
   const onClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    console.log(hoverNode)
     if (hoverNode) {
       changeSelectNode(hoverNode)
     }
@@ -149,6 +150,15 @@ const Prompt: FC<IProps> = ({
     }
   }
 
+  const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
+    const viewnode = JSON.parse(e.dataTransfer.getData('text/json'))
+    const path = dragOverNode?.getElement()?.getAttribute('lowcode-path')
+    dragOverNode?.add({
+      content: viewnode,
+      path: path!
+    })
+    changeDragOverNode(undefined)
+  }
   return (
     <>
       <div
@@ -163,7 +173,8 @@ const Prompt: FC<IProps> = ({
             changeDragOverNode(selectNode)
           }
         )}
-        onMouseOver={selectNodeMouseOver}>
+        onMouseOver={selectNodeMouseOver}
+        onDrop={onDrop}>
         <Dropdown
           menu={{
             items: nodePath.map((node) => ({
@@ -171,9 +182,7 @@ const Prompt: FC<IProps> = ({
               label: node.name
             }))
           }}>
-          <span className="node-path">
-            {selectNode?.name}
-          </span>
+          <span className="node-path">{selectNode?.name}</span>
         </Dropdown>
       </div>
       <div

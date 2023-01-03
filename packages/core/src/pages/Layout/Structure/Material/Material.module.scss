@@ -1,12 +1,16 @@
 .material {
-  height: calc(100vh - 48px - 46px);
+  height: 100%;
   overflow-y: auto;
-
+  width: 190px;
+  margin: 10px 0;
   :global {
     .ant-list-item {
       font-size: 12px;
       padding: 0 8px;
       text-align: center;
+      .ant-card-body {
+        padding: 15px;
+      }
     }
   }
 }

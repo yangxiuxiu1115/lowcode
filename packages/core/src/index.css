@@ -7,12 +7,14 @@ body,
   overflow: hidden;
 }
 
+#root>.ant-layout {
+  background-color: rgb(237, 239, 243);
+}
+
 #root>.ant-layout>.ant-layout-header {
   height: 48px;
   line-height: 48px;
-  background: inherit;
-  margin-bottom: 5px;
-  box-shadow: 0 1px 5px -1px;
+  background: white;
 }
 
 ::-webkit-scrollbar {
