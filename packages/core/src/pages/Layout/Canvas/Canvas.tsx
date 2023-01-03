@@ -107,9 +107,6 @@ const Canvas: FC<{
 
   const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
-    if (hoverNode) {
-      setHoverNode(undefined)
-    }
     hoverEffct(e, app, dragOverNode, setDragOverNode)
   }
 

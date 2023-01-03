@@ -20,3 +20,11 @@ body,
 ::-webkit-scrollbar {
   width: 0px;
 }
+
+.dropdownList .ant-dropdown-menu {
+  padding: 0;
+}
+
+.dropdownList .ant-dropdown-menu .ant-dropdown-menu-item {
+  font-size: 12px;
+}

@@ -138,7 +138,6 @@ const Prompt: FC<IProps> = ({
   }, [selectNode])
 
   const onClick: MouseEventHandler<HTMLDivElement> = (e) => {
-    console.log(hoverNode)
     if (hoverNode) {
       changeSelectNode(hoverNode)
     }
@@ -159,6 +158,13 @@ const Prompt: FC<IProps> = ({
     })
     changeDragOverNode(undefined)
   }
+
+  const dropdownItemClick = ({ key }: { key: string }) => {
+    const selectNode = nodePath.find((node) => node.id === key)
+    if (selectNode) {
+      changeSelectNode(selectNode)
+    }
+  }
   return (
     <>
       <div
@@ -177,11 +183,15 @@ const Prompt: FC<IProps> = ({
         onDrop={onDrop}>
         <Dropdown
           menu={{
-            items: nodePath.map((node) => ({
-              key: node.id,
-              label: node.name
-            }))
-          }}>
+            items: nodePath
+              .map((node) => ({
+                key: node.id,
+                label: node.name
+              }))
+              .concat([{ key: 'empty', label: 'Page' }]),
+            onClick: dropdownItemClick
+          }}
+          overlayClassName="dropdownList">
           <span className="node-path">{selectNode?.name}</span>
         </Dropdown>
       </div>
@@ -189,7 +199,12 @@ const Prompt: FC<IProps> = ({
         className={style['hover-node']}
         ref={hoverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
-        onDragOver={(e) => e.preventDefault()}
+        onDragOver={(e) => {
+          e.preventDefault()
+          if (hoverNode) {
+            changeHoverNode(undefined)
+          }
+        }}
         onMouseMove={MoveHandle<MouseEventHandler<HTMLDivElement>>(
           hoverNode,
           changeHoverNode

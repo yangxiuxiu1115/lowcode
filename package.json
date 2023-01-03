@@ -11,7 +11,9 @@
     "lint": "eslint src --fix"
   },
   "lint-staged": {
-    "*.{ts, tsx}": ["eslint --fix"]
+    "packages/*/*.{ts,tsx,scss}": [
+      "eslint --fix"
+    ]
   },
   "keywords": [],
   "author": "",

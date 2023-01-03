@@ -34,7 +34,7 @@ class ViewItemV2 extends Component<Props> {
   render() {
     const { typename, parentname, children, text, property, slot } =
       this.props.viewNode
-    const path = this.props.path
+    const { path } = this.props
 
     const Component = parentname
       ? (antd as any)[parentname][typename]
