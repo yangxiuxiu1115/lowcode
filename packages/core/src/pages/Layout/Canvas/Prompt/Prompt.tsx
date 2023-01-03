@@ -157,6 +157,7 @@ const Prompt: FC<IProps> = ({
       path: path!
     })
     changeDragOverNode(undefined)
+    changeSelectNode(dragOverNode?.children.at(-1) as ViewNode)
   }
 
   const dropdownItemClick = ({ key }: { key: string }) => {

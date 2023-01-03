@@ -117,6 +117,7 @@ const Canvas: FC<{
       content: viewnode,
       path: path!
     })
+    handleSelect(dragOverNode?.children.at(-1) as ViewNode)
     setDragOverNode(undefined)
   }
 
