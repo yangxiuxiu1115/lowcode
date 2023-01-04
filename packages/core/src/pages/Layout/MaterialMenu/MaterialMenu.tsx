@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { Tabs } from 'antd'
+import { Tabs, Empty } from 'antd'
 import { ViewNode } from '@lowcode/concept'
 
 import style from './MaterialMenu.module.scss'
@@ -11,19 +11,23 @@ interface ITabType {
 }
 const tabs: ITabType[] = [{ label: '属性', key: 'attribute' }]
 
-const MaterialMenu: FC<{ selectNode: ViewNode }> = ({ selectNode }) => {
+const MaterialMenu: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
   return (
     <div className={style.materialMenu}>
-      <Tabs
-        type="card"
-        items={tabs.filter((tab) => {
-          if (tab.key === 'attribute') {
-            if (selectNode) return true
-            return false
-          }
-          return true
-        })}
-      />
+      {selectNode ? (
+        <Tabs
+          type="card"
+          items={tabs.filter((tab) => {
+            if (tab.key === 'attribute') {
+              if (selectNode) return true
+              return false
+            }
+            return true
+          })}
+        />
+      ) : (
+        <Empty description={'暂未选中节点'} />
+      )}
     </div>
   )
 }

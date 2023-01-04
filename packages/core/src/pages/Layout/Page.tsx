@@ -19,21 +19,21 @@ const Page = () => {
   }
 
   return (
-    <div className={style.layout}>
-      <Layout>
-        <Sider theme="light" collapsed={true} collapsedWidth={48}>
-          <Structure selectNode={selectNode}></Structure>
-        </Sider>
-        <Content>
-          <Canvas handleSelect={handleSelect} selectNode={selectNode}></Canvas>
-        </Content>
-        {selectNode && (
+      <div className={style.layout}>
+        <Layout>
+          <Sider theme="light" collapsed={true} collapsedWidth={48}>
+            <Structure selectNode={selectNode}></Structure>
+          </Sider>
+          <Content>
+            <Canvas
+              handleSelect={handleSelect}
+              selectNode={selectNode}></Canvas>
+          </Content>
           <Sider theme="light" width={250}>
             <Material selectNode={selectNode}></Material>
           </Sider>
-        )}
-      </Layout>
-    </div>
+        </Layout>
+      </div>
   )
 }
 

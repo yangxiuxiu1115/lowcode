@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Menu, MenuProps } from 'antd'
 
 import {
@@ -33,11 +33,28 @@ const items: MenuProps['items'] = [
 const Structure: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
   const [selectKey, setSelectKey] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const structureRef = useRef<HTMLDivElement>(null)
 
   const resetMenu = () => {
     setSelectKey('')
     setSelectedKeys([])
   }
+
+  useEffect(() => {
+    const handle = (e: MouseEvent) => {
+      const el = e.target as HTMLElement
+      if (el && structureRef.current?.contains(el)) {
+        return
+      }
+      if (selectKey) {
+        resetMenu()
+      }
+    }
+    document.addEventListener('click', handle)
+    return () => {
+      document.removeEventListener('click', handle)
+    }
+  }, [selectKey])
 
   const menuClick = ({ key }: { key: string }) => {
     if (key === selectKey) {
@@ -49,7 +66,7 @@ const Structure: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
   }
 
   return (
-    <div className={style.structure}>
+    <div className={style.structure} ref={structureRef}>
       <Menu
         mode="inline"
         items={items}

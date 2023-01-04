@@ -2,5 +2,8 @@
   user-select: none;
   padding-left: 5px;
   :global {
+    .ant-empty {
+      padding-top: 50%;
+    }
   }
 }

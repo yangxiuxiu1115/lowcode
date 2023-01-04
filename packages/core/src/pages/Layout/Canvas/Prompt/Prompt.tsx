@@ -200,12 +200,7 @@ const Prompt: FC<IProps> = ({
         className={style['hover-node']}
         ref={hoverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
-        onDragOver={(e) => {
-          e.preventDefault()
-          if (hoverNode) {
-            changeHoverNode(undefined)
-          }
-        }}
+        onDragOver={(e) => e.preventDefault()}
         onMouseMove={MoveHandle<MouseEventHandler<HTMLDivElement>>(
           hoverNode,
           changeHoverNode
