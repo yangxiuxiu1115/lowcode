@@ -25,14 +25,11 @@ const Material: FC<IMaterialProps> = ({ resetMenu }) => {
       })
   }, [])
 
-  const onDragStart = (
-    item: ViewNodeType,
-    event: DragEvent<HTMLDivElement>
-  ) => {
-    event.dataTransfer.setDragImage(event.target as Element, 0, 0)
+  const onDragStart = (item: ViewNodeType, e: DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setDragImage(e.target as Element, 0, 0)
     item.property = undefined
-    event.dataTransfer.setData('text/json', JSON.stringify(item))
-    event.dataTransfer.effectAllowed = 'copyMove'
+    e.dataTransfer.setData('text/json', JSON.stringify(item))
+    e.dataTransfer.effectAllowed = 'copyMove'
   }
 
   return (
@@ -46,7 +43,7 @@ const Material: FC<IMaterialProps> = ({ resetMenu }) => {
               hoverable
               draggable={true}
               onDragStart={(event) => onDragStart(item, event)}
-              onDragOver={() => resetMenu()}>
+              onDragOver={(e) => resetMenu()}>
               <Meta title={item.name} />
             </Card>
             {item.name}

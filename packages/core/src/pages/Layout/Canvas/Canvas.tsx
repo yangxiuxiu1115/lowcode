@@ -101,7 +101,7 @@ const Canvas: FC<{
     )
   }, [])
 
-  const onMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
+  const onMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
     hoverEffct(e, app, hoverNode, setHoverNode)
   }
 
@@ -126,7 +126,7 @@ const Canvas: FC<{
       <div
         className="app"
         onDragOver={onDragOver}
-        onMouseOver={onMouseOver}
+        onMouseMove={onMouseMove}
         onDrop={onDrop}
         onDragEnter={(e) => e.preventDefault()}
         onClick={() => {

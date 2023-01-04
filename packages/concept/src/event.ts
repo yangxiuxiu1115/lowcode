@@ -28,5 +28,19 @@ class LowCodeEvent {
       )
     }
   }
+
+  once(event: string, callback: EventFunction) {
+    const queue = this.events.get(event)
+    const handle = (...args: any[]) => {
+      callback()
+      this.off(event, handle)
+    }
+
+    if (queue) {
+      queue.push(handle)
+    } else {
+      this.events.set(event, [handle])
+    }
+  }
 }
 export const event = new LowCodeEvent()

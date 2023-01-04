@@ -143,7 +143,7 @@ const Prompt: FC<IProps> = ({
     }
   }
 
-  const selectNodeMouseOver: MouseEventHandler<HTMLDivElement> = (e) => {
+  const selectNodeMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
     if (selectNode) {
       changeHoverNode(selectNode)
     }
@@ -180,7 +180,7 @@ const Prompt: FC<IProps> = ({
             changeDragOverNode(selectNode)
           }
         )}
-        onMouseOver={selectNodeMouseOver}
+        onMouseMove={selectNodeMouseMove}
         onDrop={onDrop}>
         <Dropdown
           menu={{

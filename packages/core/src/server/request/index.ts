@@ -15,7 +15,7 @@ const http = new HTTP({
       return responce.data
     }
     return responce
-  },
+  }
 })
 
 export default http
