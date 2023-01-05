@@ -9,7 +9,7 @@ import React, {
 import { Dropdown } from 'antd'
 import { ViewNode } from '@lowcode/concept'
 
-import Protal from '@/components/Portal/Protal'
+import Portal from '@/components/Portal/Portal'
 import { GetViewNodePath } from '@/utils/utils'
 import style from './Prompt.module.scss'
 
@@ -192,7 +192,7 @@ const Prompt: FC<IPromptProps> = ({
   }
 
   return (
-    <Protal parentSelect="#root">
+    <Portal to="#root">
       <SelectPrompt
         selectNode={selectNode}
         changeSelectNode={changeSelectNode}
@@ -215,7 +215,7 @@ const Prompt: FC<IPromptProps> = ({
         ref={dragOverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
         onDragOver={(e) => e.preventDefault()}></div>
-    </Protal>
+    </Portal>
   )
 }
 
