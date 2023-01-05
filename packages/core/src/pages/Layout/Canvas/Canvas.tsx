@@ -18,8 +18,8 @@ import { GetViewNode, GetViewNodeJson } from '@/utils/utils'
 const hoverEffct = (
   e: any,
   app: View,
-  state: ViewNode | undefined,
-  stateAction: Dispatch<SetStateAction<ViewNode | undefined>>
+  stateAction: Dispatch<SetStateAction<ViewNode | undefined>>,
+  state?: ViewNode
 ) => {
   const targetNode = GetViewNode(e.target)
   if (!targetNode) {
@@ -33,10 +33,67 @@ const hoverEffct = (
   }
 }
 
+interface IEditor {
+  app: View
+  hoverNode?: ViewNode
+  dragOverNode?: ViewNode
+  setHoverNode: Dispatch<SetStateAction<ViewNode | undefined>>
+  setDragOverNode: Dispatch<SetStateAction<ViewNode | undefined>>
+  changeSelectNode: (node: ViewNode | undefined) => void
+}
+
+const Editor: FC<IEditor> = ({
+  app,
+  hoverNode,
+  dragOverNode,
+  changeSelectNode,
+  setHoverNode,
+  setDragOverNode
+}) => {
+  const onMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
+    hoverEffct(e, app, setHoverNode, hoverNode)
+  }
+
+  const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault()
+    hoverEffct(e, app, setDragOverNode, dragOverNode)
+  }
+
+  const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
+    const viewnode = JSON.parse(e.dataTransfer.getData('text/json'))
+    const path = dragOverNode?.getElement()?.getAttribute('lowcode-path')
+    dragOverNode?.add({
+      content: viewnode,
+      path: path!
+    })
+    changeSelectNode(dragOverNode?.children.at(-1) as ViewNode)
+    setDragOverNode(undefined)
+  }
+  return (
+    <div
+      className="app"
+      onDragOver={onDragOver}
+      onMouseMove={onMouseMove}
+      onDrop={onDrop}
+      onDragEnter={(e) => e.preventDefault()}
+      onClick={() => {
+        changeSelectNode(undefined)
+      }}>
+      {app.render?.map((view, index) => (
+        <ViewItemV2
+          viewNode={view as ViewNode}
+          key={(view as ViewNode).id}
+          path={`app.render[${index}]`}
+          index={index}></ViewItemV2>
+      ))}
+    </div>
+  )
+}
+
 const Canvas: FC<{
-  handleSelect: (node: ViewNode | undefined) => void
+  changeSelectNode: (node?: ViewNode) => void
   selectNode?: ViewNode
-}> = ({ handleSelect, selectNode }) => {
+}> = ({ changeSelectNode, selectNode }) => {
   const [app, setApp] = useState<View>(new View({ name: 'view' }))
   const [hoverNode, setHoverNode] = useState<ViewNode>()
   const [dragOverNode, setDragOverNode] = useState<ViewNode>()
@@ -50,6 +107,7 @@ const Canvas: FC<{
             name: '行布局',
             typename: 'Row',
             slot: true,
+            isCloseTag: false,
             property: {
               gutter: 20
             },
@@ -58,6 +116,7 @@ const Canvas: FC<{
                 name: '列布局',
                 typename: 'Col',
                 slot: true,
+                isCloseTag: false,
                 property: {
                   span: 6
                 }
@@ -66,6 +125,7 @@ const Canvas: FC<{
                 name: '列布局',
                 typename: 'Col',
                 slot: true,
+                isCloseTag: false,
                 property: {
                   span: 6
                 }
@@ -74,6 +134,7 @@ const Canvas: FC<{
                 name: '列布局',
                 typename: 'Col',
                 slot: true,
+                isCloseTag: false,
                 property: {
                   span: 6
                 }
@@ -82,6 +143,7 @@ const Canvas: FC<{
                 name: '列布局',
                 typename: 'Col',
                 slot: true,
+                isCloseTag: false,
                 property: {
                   span: 6
                 }
@@ -92,6 +154,7 @@ const Canvas: FC<{
             name: '自动完成',
             typename: 'AutoComplete',
             slot: false,
+            isCloseTag: false,
             property: {
               placeholder: '请选择'
             }
@@ -101,45 +164,16 @@ const Canvas: FC<{
     )
   }, [])
 
-  const onMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    hoverEffct(e, app, hoverNode, setHoverNode)
-  }
-
-  const onDragOver: DragEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault()
-    hoverEffct(e, app, dragOverNode, setDragOverNode)
-  }
-
-  const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
-    const viewnode = JSON.parse(e.dataTransfer.getData('text/json'))
-    const path = dragOverNode?.getElement()?.getAttribute('lowcode-path')
-    dragOverNode?.add({
-      content: viewnode,
-      path: path!
-    })
-    handleSelect(dragOverNode?.children.at(-1) as ViewNode)
-    setDragOverNode(undefined)
-  }
-
   return (
     <div className={style.canvas}>
-      <div
-        className="app"
-        onDragOver={onDragOver}
-        onMouseMove={onMouseMove}
-        onDrop={onDrop}
-        onDragEnter={(e) => e.preventDefault()}
-        onClick={() => {
-          handleSelect(undefined)
-        }}>
-        {app.render?.map((view, index) => (
-          <ViewItemV2
-            viewNode={view as ViewNode}
-            key={(view as ViewNode).id}
-            path={`app.render[${index}]`}
-            index={index}></ViewItemV2>
-        ))}
-      </div>
+      <Editor
+        app={app}
+        changeSelectNode={changeSelectNode}
+        hoverNode={hoverNode}
+        setHoverNode={setHoverNode}
+        dragOverNode={dragOverNode}
+        setDragOverNode={setDragOverNode}
+      />
       <Prompt
         hoverNode={hoverNode}
         dragOverNode={dragOverNode}
@@ -151,7 +185,7 @@ const Canvas: FC<{
           setDragOverNode(viewnode)
         }}
         changeSelectNode={(viewnode) => {
-          handleSelect(viewnode)
+          changeSelectNode(viewnode)
         }}></Prompt>
     </div>
   )

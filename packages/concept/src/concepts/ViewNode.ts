@@ -9,6 +9,7 @@ export default class ViewNode extends BaseNode {
   typename: string
   name: string
   slot: boolean
+  isCloseTag: boolean
   text?: string
   parent?: ViewNode | View
   parentname?: string
@@ -25,7 +26,8 @@ export default class ViewNode extends BaseNode {
     name,
     parentname,
     typename,
-    property = {}
+    property = {},
+    isCloseTag
   }: ViewNodeType) {
     super()
     super.instansition(properties)
@@ -37,6 +39,7 @@ export default class ViewNode extends BaseNode {
     this.children = children
     this.parentname = parentname
     this.property = property
+    this.isCloseTag = isCloseTag
   }
 
   update({ path, content }: ActionChange): void {

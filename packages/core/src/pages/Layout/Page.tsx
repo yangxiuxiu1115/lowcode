@@ -14,7 +14,7 @@ const { Sider, Content } = Layout
 const Page = () => {
   const [selectNode, setSelectNode] = useState<ViewNode>()
 
-  const handleSelect = (node: ViewNode | undefined) => {
+  const handleSelect = (node?: ViewNode) => {
     setSelectNode(node)
   }
 
@@ -22,11 +22,11 @@ const Page = () => {
       <div className={style.layout}>
         <Layout>
           <Sider theme="light" collapsed={true} collapsedWidth={48}>
-            <Structure selectNode={selectNode}></Structure>
+            <Structure selectNode={selectNode} changeSelectNode={handleSelect}></Structure>
           </Sider>
           <Content>
             <Canvas
-              handleSelect={handleSelect}
+              changeSelectNode={handleSelect}
               selectNode={selectNode}></Canvas>
           </Content>
           <Sider theme="light" width={250}>

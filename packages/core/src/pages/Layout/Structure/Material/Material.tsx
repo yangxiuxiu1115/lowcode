@@ -4,15 +4,23 @@ import { List, Card } from 'antd'
 import style from './Material.module.scss'
 
 import { getMaterails } from '@/server/material'
-import { ViewNodeType } from '@lowcode/concept'
+import { ViewNode, ViewNodeType } from '@lowcode/concept'
 
 const { Meta } = Card
 
 interface IMaterialProps {
   resetMenu: () => void
+  hidden: boolean
+  selectNode?: ViewNode
+  changeSelectNode: (node?: ViewNode) => void
 }
 
-const Material: FC<IMaterialProps> = ({ resetMenu }) => {
+const Material: FC<IMaterialProps> = ({
+  resetMenu,
+  hidden,
+  selectNode,
+  changeSelectNode
+}) => {
   const [material, setMaterial] = useState<ViewNodeType[]>([])
 
   useEffect(() => {
@@ -30,10 +38,16 @@ const Material: FC<IMaterialProps> = ({ resetMenu }) => {
     item.property = undefined
     e.dataTransfer.setData('text/json', JSON.stringify(item))
     e.dataTransfer.effectAllowed = 'copyMove'
+
+    if (selectNode) {
+      changeSelectNode()
+    }
   }
 
   return (
-    <div className={style.material}>
+    <div
+      className={style.material}
+      style={{ display: hidden ? 'none' : 'block' }}>
       <List
         grid={{ column: 3 }}
         dataSource={material}

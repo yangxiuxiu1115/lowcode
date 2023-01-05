@@ -24,6 +24,7 @@ export interface ViewNodeType {
   text?: string
   children?: Array<ViewNodeType | ViewNode>
   parentname?: string
+  isCloseTag: boolean
 }
 
 export interface ViewType {

@@ -32,7 +32,7 @@ class ViewItemV2 extends Component<Props> {
   }
 
   render() {
-    const { typename, parentname, children, text, property, slot } =
+    const { typename, parentname, children, text, property, slot, isCloseTag } =
       this.props.viewNode
     const { path } = this.props
 
@@ -52,8 +52,8 @@ class ViewItemV2 extends Component<Props> {
           ))
         ) : slot ? (
           <div className="emptynode"></div>
-        ) : (
-          text ?? null
+        ) : isCloseTag ? null : (
+          text
         )}
       </Component>
     )

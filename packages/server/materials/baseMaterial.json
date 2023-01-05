@@ -4,6 +4,7 @@
     "typename": "Button",
     "slot": false,
     "text": "按钮",
+    "isCloseTag": false,
     "property": {
       "block": {
         "type": "switch",
@@ -65,6 +66,7 @@
     "typename": "Divider",
     "slot": false,
     "text": "分割线",
+    "isCloseTag": false,
     "property": {
       "dashed": {
         "type": "switch",
@@ -101,6 +103,7 @@
     "name": "行布局",
     "typename": "Row",
     "slot": true,
+    "isCloseTag": false,
     "property": {
       "align": {
         "type": "select",
@@ -148,6 +151,7 @@
         "name": "列布局",
         "typename": "Col",
         "slot": true,
+        "isCloseTag": false,
         "property": {
           "offset": {
             "type": "number",
@@ -180,6 +184,7 @@
         "name": "列布局",
         "typename": "Col",
         "slot": true,
+        "isCloseTag": false,
         "property": {
           "offset": {
             "type": "number",
@@ -212,6 +217,7 @@
         "name": "列布局",
         "typename": "Col",
         "slot": true,
+        "isCloseTag": false,
         "property": {
           "offset": {
             "type": "number",
@@ -244,6 +250,7 @@
         "name": "列布局",
         "typename": "Col",
         "slot": true,
+        "isCloseTag": false,
         "property": {
           "offset": {
             "type": "number",
@@ -278,6 +285,7 @@
     "name": "布局容器",
     "typename": "Layout",
     "slot": true,
+    "isCloseTag": false,
     "property": {},
     "children": [
       {
@@ -285,6 +293,7 @@
         "name": "容器头部",
         "typename": "Header",
         "slot": true,
+        "isCloseTag": false,
         "children": [],
         "property": {
           "style": {
@@ -296,6 +305,7 @@
         "name": "布局容器",
         "typename": "Layout",
         "slot": true,
+        "isCloseTag": false,
         "children": [
           {
             "parentname": "Layout",
@@ -330,6 +340,7 @@
     "name": "间隔容器",
     "typename": "Space",
     "slot": true,
+    "isCloseTag": false,
     "property": {
       "align": {
         "type": "select",
@@ -377,6 +388,7 @@
     "name": "面包屑",
     "typename": "Breadcrumb",
     "slot": false,
+    "isCloseTag": false,
     "property": {},
     "children": [
       {
@@ -385,6 +397,7 @@
         "parentname": "Breadcrumb",
         "slot": false,
         "text": "Item1",
+        "isCloseTag": false,
         "property": {}
       },
       {
@@ -392,6 +405,7 @@
         "typename": "Item",
         "parentname": "Breadcrumb",
         "slot": false,
+        "isCloseTag": false,
         "text": "Item2",
         "property": {}
       },
@@ -400,6 +414,7 @@
         "typename": "Item",
         "parentname": "Breadcrumb",
         "slot": false,
+        "isCloseTag": false,
         "text": "Item3",
         "property": {}
       }
@@ -409,6 +424,7 @@
     "name": "下拉菜单",
     "typename": "Dropdown",
     "slot": false,
+    "isCloseTag": false,
     "property": {
       "arrow": {
         "type": "switch",
@@ -462,6 +478,7 @@
     "parentname": "Dropdown",
     "typename": "Button",
     "slot": false,
+    "isCloseTag": false,
     "property": {
       "arrow": {
         "type": "switch",
@@ -547,6 +564,7 @@
     "name": "导航菜单",
     "typename": "Menu",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "mode": {
         "type": "select",
@@ -579,6 +597,7 @@
     "name": "步骤条",
     "typename": "Steps",
     "slot": false,
+    "isCloseTag": true,
     "childrenName": "items",
     "property": {
       "direction": {
@@ -659,6 +678,7 @@
     "name": "自动完成",
     "typename": "AutoComplete",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "type": "switch",
@@ -686,6 +706,7 @@
     "name": "级联选择",
     "typename": "Cascader",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "label": "是否支持清除",
@@ -731,6 +752,7 @@
     "typename": "Checkbox",
     "slot": false,
     "text": "多选框",
+    "isCloseTag": false,
     "property": {
       "autoFocus": {
         "label": "自动获取焦点",
@@ -754,6 +776,7 @@
     "typename": "Group",
     "parentname": "Checkbox",
     "slot": false,
+    "isCloseTag": true,
     "childrenName": "options",
     "property": {
       "disabled": {
@@ -767,6 +790,7 @@
     "name": "日期选择框",
     "typename": "DatePicker",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "label": "是否支持清除",
@@ -822,6 +846,7 @@
     "name": "日期范围选择器",
     "typename": "RangePicker",
     "slot": false,
+    "isCloseTag": true,
     "parentname": "DatePicker",
     "property": {
       "allowClear": {
@@ -878,6 +903,7 @@
     "name": "表单",
     "typename": "Form",
     "slot": true,
+    "isCloseTag": false,
     "property": {
       "disabled": {
         "value": false,
@@ -952,6 +978,7 @@
         "typename": "Item",
         "parentname": "Form",
         "slot": true,
+        "isCloseTag": false,
         "children": [],
         "property": {
           "name": {
@@ -987,6 +1014,7 @@
     "name": "输入框",
     "typename": "Input",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "label": "可以点击清除图标删除内容",
@@ -1019,6 +1047,7 @@
     "typename": "InputNumber",
     "name": "数字输入框",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "autoFocus": {
         "type": "switch",
@@ -1057,6 +1086,7 @@
     "typename": "Group",
     "parentname": "Radio",
     "slot": true,
+    "isCloseTag": false,
     "property": {
       "disabled": {
         "type": "switch",
@@ -1069,6 +1099,7 @@
         "name": "单选项",
         "typename": "Radio",
         "slot": false,
+        "isCloseTag": false,
         "property": {
           "autoFocus": {
             "type": "switch",
@@ -1094,6 +1125,7 @@
     "typename": "Rate",
     "name": "评分",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "label": "是否允许再次点击后清除",
@@ -1131,6 +1163,7 @@
     "typename": "Select",
     "name": "选择器",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "type": "switch",
@@ -1201,6 +1234,7 @@
     "name": "滑动输入条",
     "typename": "Slider",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "type": "switch",
@@ -1248,6 +1282,7 @@
     "name": "开关",
     "typename": "Switch",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "autoFocus": {
         "type": "switch",
@@ -1292,6 +1327,7 @@
     "name": "时间选择器",
     "typename": "TimePicker",
     "slot": false,
+    "isCloseTag": true,
     "property": {
       "allowClear": {
         "type": "switch",

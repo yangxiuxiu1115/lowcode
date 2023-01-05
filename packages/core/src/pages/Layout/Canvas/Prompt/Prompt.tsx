@@ -4,33 +4,25 @@ import React, {
   useRef,
   MouseEventHandler,
   useState,
-  DragEventHandler,
   EventHandler
 } from 'react'
 import { Dropdown } from 'antd'
-import { GetViewNodePath } from '@/utils/utils'
 import { ViewNode } from '@lowcode/concept'
 
+import Protal from '@/components/Portal/Protal'
+import { GetViewNodePath } from '@/utils/utils'
 import style from './Prompt.module.scss'
 
 let lastEmpty: HTMLDivElement | null = null
 
-type ChangeNodeFunc = (el: ViewNode | undefined) => void
-interface IProps {
-  hoverNode?: ViewNode
-  dragOverNode?: ViewNode
-  selectNode?: ViewNode
-  changeHoverNode: ChangeNodeFunc
-  changeDragOverNode: ChangeNodeFunc
-  changeSelectNode: ChangeNodeFunc
-}
+type ChangeNodeFunc = (el?: ViewNode) => void
 
 const MoveHandle: <T extends EventHandler<any>>(
-  state: ViewNode | undefined,
   changeState: ChangeNodeFunc,
+  state?: ViewNode,
   preventDefault?: boolean,
   effect?: (e: Event) => void
-) => T = (state, changeState, preventDefault = false, effect) => {
+) => T = (changeState, state, preventDefault = false, effect) => {
   const handle: any = (e: any) => {
     if (preventDefault) {
       e.preventDefault()
@@ -62,7 +54,86 @@ const MoveHandle: <T extends EventHandler<any>>(
   return handle
 }
 
-const Prompt: FC<IProps> = ({
+interface ISelectPromptProps {
+  selectNode?: ViewNode
+  changeSelectNode: (node?: ViewNode) => void
+  dragOverNode?: ViewNode
+  changeDragOverNode: (node?: ViewNode) => void
+  changeHoverNode: (node?: ViewNode) => void
+}
+const SelectPrompt: FC<ISelectPromptProps> = ({
+  selectNode,
+  changeSelectNode,
+  dragOverNode,
+  changeDragOverNode,
+  changeHoverNode
+}) => {
+  const [nodePath, setNodePath] = useState<ViewNode[]>([])
+  const selectNodeRef = useRef<HTMLDivElement>(null)
+
+  const selectNodeMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
+    if (selectNode) {
+      changeHoverNode(selectNode)
+    }
+  }
+
+  const dropdownItemClick = ({ key }: { key: string }) => {
+    const selectNode = nodePath.find((node) => node.id === key)
+    if (selectNode) {
+      changeSelectNode(selectNode)
+    }
+  }
+
+  useEffect(() => {
+    const el = selectNodeRef.current
+    if (el) {
+      if (selectNode) {
+        const { width, height, left, top } = selectNode.getRect()!
+
+        el.style.transform = `translate(${left}px, ${top}px)`
+        el.style.width = `${width - 2}px`
+        el.style.height = `${height - 2}px`
+        el.style.display = 'block'
+
+        const path = GetViewNodePath(selectNode.parent!)
+        setNodePath(path)
+      } else {
+        el.style.display = 'none'
+        setNodePath([])
+      }
+    }
+  }, [selectNode])
+  return (
+    <div
+      className={style['select-node']}
+      ref={selectNodeRef}
+      onMouseMove={selectNodeMouseMove}>
+      <Dropdown
+        menu={{
+          items: nodePath.length
+            ? nodePath.map((node) => ({
+                key: node.id,
+                label: node.name
+              }))
+            : [{ key: 'empty', label: '不存在父节点' }],
+          onClick: dropdownItemClick
+        }}
+        overlayClassName="dropdownList">
+        <span className="node-path">{selectNode?.name}</span>
+      </Dropdown>
+    </div>
+  )
+}
+
+interface IPromptProps {
+  hoverNode?: ViewNode
+  dragOverNode?: ViewNode
+  selectNode?: ViewNode
+  changeHoverNode: ChangeNodeFunc
+  changeDragOverNode: ChangeNodeFunc
+  changeSelectNode: ChangeNodeFunc
+}
+const Prompt: FC<IPromptProps> = ({
   hoverNode,
   dragOverNode,
   selectNode,
@@ -70,22 +141,21 @@ const Prompt: FC<IProps> = ({
   changeDragOverNode,
   changeSelectNode
 }) => {
-  const [nodePath, setNodePath] = useState<ViewNode[]>([])
   const hoverNodeRef = useRef<HTMLDivElement>(null)
   const dragOverNodeRef = useRef<HTMLDivElement>(null)
-  const selectNodeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (hoverNodeRef.current) {
+    const el = hoverNodeRef.current
+    if (el) {
       if (hoverNode) {
-        const hoverRect = hoverNode.getRect()!
-        hoverNodeRef.current.style.top = `${hoverRect.top}px`
-        hoverNodeRef.current.style.left = `${hoverRect.left}px`
-        hoverNodeRef.current.style.width = `${hoverRect.width}px`
-        hoverNodeRef.current.style.height = `${hoverRect.height}px`
-        hoverNodeRef.current.style.display = 'block'
+        const { width, height, left, top } = hoverNode.getRect()!
+
+        el.style.transform = `translate(${left}px, ${top}px)`
+        el.style.width = `${width - 4}px`
+        el.style.height = `${height - 4}px`
+        el.style.display = 'block'
       } else {
-        hoverNodeRef.current.style.display = 'none'
+        el.style.display = 'none'
       }
     }
   }, [hoverNode])
@@ -115,95 +185,29 @@ const Prompt: FC<IProps> = ({
     }
   }, [dragOverNode])
 
-  useEffect(() => {
-    const el = selectNodeRef.current
-    if (el) {
-      if (selectNode) {
-        const { top, width, height, left } = selectNode.getRect()!
-
-        el.style.top = `${top}px`
-        el.style.left = `${left}px`
-        el.style.width = `${width}px`
-        el.style.height = `${height}px`
-        el.style.display = 'block'
-
-        const path = GetViewNodePath(selectNode.parent!)
-        setNodePath(path)
-      } else {
-        el.style.display = 'none'
-
-        setNodePath([])
-      }
-    }
-  }, [selectNode])
-
   const onClick: MouseEventHandler<HTMLDivElement> = (e) => {
     if (hoverNode) {
       changeSelectNode(hoverNode)
     }
   }
 
-  const selectNodeMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
-    if (selectNode) {
-      changeHoverNode(selectNode)
-    }
-  }
-
-  const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
-    const viewnode = JSON.parse(e.dataTransfer.getData('text/json'))
-    const path = dragOverNode?.getElement()?.getAttribute('lowcode-path')
-    dragOverNode?.add({
-      content: viewnode,
-      path: path!
-    })
-    changeDragOverNode(undefined)
-    changeSelectNode(dragOverNode?.children.at(-1) as ViewNode)
-  }
-
-  const dropdownItemClick = ({ key }: { key: string }) => {
-    const selectNode = nodePath.find((node) => node.id === key)
-    if (selectNode) {
-      changeSelectNode(selectNode)
-    }
-  }
   return (
-    <>
-      <div
-        className={style['select-node']}
-        ref={selectNodeRef}
-        onDragEnter={(e) => e.preventDefault()}
-        onDragOver={MoveHandle<DragEventHandler<HTMLDivElement>>(
-          selectNode,
-          changeDragOverNode,
-          true,
-          (e) => {
-            changeDragOverNode(selectNode)
-          }
-        )}
-        onMouseMove={selectNodeMouseMove}
-        onDrop={onDrop}>
-        <Dropdown
-          menu={{
-            items: nodePath
-              .map((node) => ({
-                key: node.id,
-                label: node.name
-              }))
-              .concat([{ key: 'empty', label: 'Page' }]),
-            onClick: dropdownItemClick
-          }}
-          overlayClassName="dropdownList">
-          <span className="node-path">{selectNode?.name}</span>
-        </Dropdown>
-      </div>
+    <Protal parentSelect="#root">
+      <SelectPrompt
+        selectNode={selectNode}
+        changeSelectNode={changeSelectNode}
+        dragOverNode={dragOverNode}
+        changeDragOverNode={changeDragOverNode}
+        changeHoverNode={changeHoverNode}
+      />
       <div
         className={style['hover-node']}
         ref={hoverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
         onDragOver={(e) => e.preventDefault()}
         onMouseMove={MoveHandle<MouseEventHandler<HTMLDivElement>>(
-          hoverNode,
-          changeHoverNode
+          changeHoverNode,
+          hoverNode
         )}
         onClick={onClick}></div>
       <div
@@ -211,7 +215,7 @@ const Prompt: FC<IProps> = ({
         ref={dragOverNodeRef}
         onDragEnter={(e) => e.preventDefault()}
         onDragOver={(e) => e.preventDefault()}></div>
-    </>
+    </Protal>
   )
 }
 

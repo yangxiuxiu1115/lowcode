@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState, ComponentType } from 'react'
 import { Menu, MenuProps } from 'antd'
 
 import {
@@ -29,10 +29,25 @@ const items: MenuProps['items'] = [
     icon: <BarChartOutlined />
   }
 ]
+interface ICache {
+  [key: string]: ComponentType<
+    { hidden: boolean; resetMenu: () => void } & IStructureProps
+  >
+}
 
-const Structure: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
+const componentMap: ICache = {
+  2: Material
+}
+
+interface IStructureProps {
+  selectNode?: ViewNode
+  changeSelectNode: (node?: ViewNode) => void
+}
+
+const Structure: FC<IStructureProps> = ({ selectNode, changeSelectNode }) => {
   const [selectKey, setSelectKey] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [cache, setCache] = useState<ICache>({})
   const structureRef = useRef<HTMLDivElement>(null)
 
   const resetMenu = () => {
@@ -61,10 +76,15 @@ const Structure: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
       resetMenu()
       return
     }
+    if (key === '2' && !cache[key]) {
+      setCache({
+        ...cache,
+        [key]: componentMap[key]
+      })
+    }
     setSelectKey(key)
     setSelectedKeys([key])
   }
-
   return (
     <div className={style.structure} ref={structureRef}>
       <Menu
@@ -73,7 +93,18 @@ const Structure: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
         onClick={menuClick}
         selectedKeys={selectedKeys}></Menu>
       <div className="containter">
-        {selectKey === '2' && <Material resetMenu={resetMenu} />}
+        {Object.keys(cache).map((key) => {
+          const Component = cache[key]
+          return (
+            <Component
+              key={key}
+              hidden={key !== selectKey}
+              resetMenu={resetMenu}
+              selectNode={selectNode}
+              changeSelectNode={changeSelectNode}
+            />
+          )
+        })}
       </div>
     </div>
   )
