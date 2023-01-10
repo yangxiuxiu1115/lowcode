@@ -2,7 +2,6 @@ import fs from 'fs'
 import path from 'path'
 
 import Koa from 'koa'
-import type KoaRouter from 'koa__router'
 
 const useRoutes = async (app: Koa) => {
   const routes = await fs.promises.readdir(path.resolve(__dirname, '../routes'))

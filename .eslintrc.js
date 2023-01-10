@@ -13,7 +13,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./packages/core/tsconfig.json']
+    project: [
+      './packages/core/tsconfig.json',
+      './packages/server/tsconfig.json'
+    ]
   },
   plugins: ['react'],
   rules: {
@@ -22,6 +25,7 @@ module.exports = {
     '@typescript-eslint/no-implied-eval': 'off',
     'no-new-func': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    'no-unneeded-ternary': 'off'
+    'no-unneeded-ternary': 'off',
+    '@typescript-eslint/no-misused-promises': 'off'
   }
 }
