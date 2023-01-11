@@ -57,15 +57,11 @@ const MoveHandle: <T extends EventHandler<any>>(
 interface ISelectPromptProps {
   selectNode?: ViewNode
   changeSelectNode: (node?: ViewNode) => void
-  dragOverNode?: ViewNode
-  changeDragOverNode: (node?: ViewNode) => void
   changeHoverNode: (node?: ViewNode) => void
 }
 const SelectPrompt: FC<ISelectPromptProps> = ({
   selectNode,
   changeSelectNode,
-  dragOverNode,
-  changeDragOverNode,
   changeHoverNode
 }) => {
   const [nodePath, setNodePath] = useState<ViewNode[]>([])
@@ -196,8 +192,6 @@ const Prompt: FC<IPromptProps> = ({
       <SelectPrompt
         selectNode={selectNode}
         changeSelectNode={changeSelectNode}
-        dragOverNode={dragOverNode}
-        changeDragOverNode={changeDragOverNode}
         changeHoverNode={changeHoverNode}
       />
       <div
