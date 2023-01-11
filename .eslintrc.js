@@ -15,7 +15,9 @@ module.exports = {
     sourceType: 'module',
     project: [
       './packages/core/tsconfig.json',
-      './packages/server/tsconfig.json'
+      './packages/server/tsconfig.json',
+      './packages/concept/tsconfig.json',
+      './packages/material/tsconfig.json'
     ]
   },
   plugins: ['react'],
