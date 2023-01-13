@@ -11,7 +11,7 @@
     "lint": "eslint src --fix"
   },
   "lint-staged": {
-    "packages/*/*.{ts,tsx,scss}": [
+    "packages/**/*.{ts,tsx,scss}": [
       "eslint --fix"
     ]
   },
