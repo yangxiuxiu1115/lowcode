@@ -9,11 +9,18 @@ interface IConfigOption {
   typename: string
   name: string
   isCloseTag: boolean
-  property: { [key: string]: IProperty }
+  property: { [key: string]: any }
   slot: boolean
   text?: string
   childrenName?: string
 }
+interface SettingConfig {
+  parentname?: string
+  typename: string
+  name: string
+  property: { [key: string]: IProperty }
+}
+
 let material: IConfigOption[]
 
 const init = (config: IConfigOption[] = []) => {
@@ -25,4 +32,4 @@ const init = (config: IConfigOption[] = []) => {
 }
 
 export { init, material }
-export type { IConfigOption }
+export type { IConfigOption, SettingConfig }

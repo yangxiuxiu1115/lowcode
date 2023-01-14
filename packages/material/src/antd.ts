@@ -1,7 +1,10 @@
-import { IConfigOption } from '../plugin/init'
+import type { IConfigOption, SettingConfig } from '../plugin/init'
 
-const antd = (await import('../assets/assets.json')) as unknown as {
+const antdAssets = (await import('../assets/assets.json')) as unknown as {
   default: IConfigOption[]
 }
+const antdSetting = (await import('../assets/setting.json')) as unknown as {
+  default: SettingConfig[]
+}
 
-export { antd }
+export { antdAssets, antdSetting }
