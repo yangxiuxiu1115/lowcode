@@ -21,14 +21,10 @@ interface SettingConfig {
   property: { [key: string]: IProperty }
 }
 
-let material: IConfigOption[]
+const material: IConfigOption[] = []
 
 const init = (config: IConfigOption[] = []) => {
-  if (material) {
-    material = material.concat(config)
-  } else {
-    material = config
-  }
+  material.push(...config)
 }
 
 export { init, material }

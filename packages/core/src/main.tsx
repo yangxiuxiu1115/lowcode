@@ -7,7 +7,6 @@ import 'animate.css'
 import './index.css'
 
 init(antdAssets.default)
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Root />
 )

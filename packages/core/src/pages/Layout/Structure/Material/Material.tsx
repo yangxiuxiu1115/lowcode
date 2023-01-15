@@ -1,10 +1,10 @@
-import React, { useEffect, useState, DragEvent, FC } from 'react'
+import React, { DragEvent, FC } from 'react'
 
 import { List, Card } from 'antd'
-import style from './Material.module.scss'
-
-import { getMaterails } from '@/server/material'
+import materialMenu from '@lowcode/material'
 import { ViewNode, ViewNodeType } from '@lowcode/concept'
+
+import style from './Material.module.scss'
 
 const { Meta } = Card
 
@@ -21,21 +21,8 @@ const Material: FC<IMaterialProps> = ({
   selectNode,
   changeSelectNode
 }) => {
-  const [material, setMaterial] = useState<ViewNodeType[]>([])
-
-  useEffect(() => {
-    getMaterails()
-      .then((responce) => {
-        setMaterial(JSON.parse(responce.data.list))
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
-
   const onDragStart = (item: ViewNodeType, e: DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setDragImage(e.target as Element, 0, 0)
-    item.property = undefined
     e.dataTransfer.setData('text/json', JSON.stringify(item))
     e.dataTransfer.effectAllowed = 'copyMove'
 
@@ -50,7 +37,7 @@ const Material: FC<IMaterialProps> = ({
       style={{ display: hidden ? 'none' : 'block' }}>
       <List
         grid={{ column: 3 }}
-        dataSource={material}
+        dataSource={materialMenu}
         renderItem={(item) => (
           <List.Item>
             <Card
