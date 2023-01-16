@@ -8,6 +8,7 @@
   cursor: pointer;
   z-index: 2;
 }
+
 .select-node {
   position: absolute;
   display: none;
@@ -16,16 +17,19 @@
   border: 1px solid aqua;
   z-index: 1;
   cursor: pointer;
-  :global {
-    .node-path {
-      background-color: aqua;
-      position: absolute;
-      top: -17px;
-      z-index: 3;
-      font-size: 12px;
-    }
-  }
 }
+
+.node-path {
+  background-color: aqua;
+  position: absolute;
+  display: none;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .dragover-prompt {
   position: absolute;
   z-index: 2;

@@ -10,7 +10,7 @@ import { Dropdown } from 'antd'
 import { ViewNode } from '@lowcode/concept'
 
 import Portal from '@/components/Portal/Portal'
-import { GetViewNodePath } from '@/utils/utils'
+import { GetViewNodePath, setStyle } from '@/utils/index'
 import style from './Prompt.module.scss'
 
 let lastEmpty: HTMLDivElement | null = null
@@ -66,6 +66,7 @@ const SelectPrompt: FC<ISelectPromptProps> = ({
 }) => {
   const [nodePath, setNodePath] = useState<ViewNode[]>([])
   const selectNodeRef = useRef<HTMLDivElement>(null)
+  const nodePathRef = useRef<HTMLSpanElement>(null)
 
   const selectNodeMouseMove: MouseEventHandler<HTMLDivElement> = (e) => {
     if (selectNode) {
@@ -82,19 +83,28 @@ const SelectPrompt: FC<ISelectPromptProps> = ({
 
   useEffect(() => {
     const el = selectNodeRef.current
-    if (el) {
+    const nodePathEl = nodePathRef.current
+    if (el && nodePathEl) {
       if (selectNode) {
         const { width, height, left, top } = selectNode.getRect()!
 
-        el.style.transform = `translate(${left}px, ${top}px)`
-        el.style.width = `${width - 2}px`
-        el.style.height = `${height - 2}px`
-        el.style.display = 'block'
+        setStyle(el, {
+          transform: `translate(${left}px, ${top}px)`,
+          width: `${width - 2}px`,
+          height: `${height - 2}px`,
+          display: 'block'
+        })
+        setStyle(nodePathEl, {
+          transform: `translate(${left}px, ${top - 16}px)`,
+          display: 'block'
+        })
 
         const path = GetViewNodePath(selectNode.parent!)
         setNodePath(path)
       } else {
-        el.style.display = 'none'
+        setStyle(el, { display: 'none' })
+        setStyle(nodePathEl, { display: 'none' })
+
         setNodePath([])
       }
     }
@@ -104,19 +114,23 @@ const SelectPrompt: FC<ISelectPromptProps> = ({
       className={style['select-node']}
       ref={selectNodeRef}
       onMouseMove={selectNodeMouseMove}>
-      <Dropdown
-        menu={{
-          items: nodePath.length
-            ? nodePath.map((node) => ({
-                key: node.id,
-                label: node.name
-              }))
-            : [{ key: 'empty', label: '不存在父节点' }],
-          onClick: dropdownItemClick
-        }}
-        overlayClassName="dropdownList">
-        <span className="node-path">{selectNode?.name}</span>
-      </Dropdown>
+      <Portal to="#root">
+        <Dropdown
+          menu={{
+            items: nodePath.length
+              ? nodePath.map((node) => ({
+                  key: node.id,
+                  label: node.name
+                }))
+              : [{ key: 'empty', label: '不存在父节点' }],
+            onClick: dropdownItemClick
+          }}
+          overlayClassName="dropdownList">
+          <span className={style['node-path']} ref={nodePathRef}>
+            {selectNode?.name}
+          </span>
+        </Dropdown>
+      </Portal>
     </div>
   )
 }
@@ -126,7 +140,6 @@ interface IPromptProps {
   dragOverNode?: ViewNode
   selectNode?: ViewNode
   changeHoverNode: ChangeNodeFunc
-  changeDragOverNode: ChangeNodeFunc
   changeSelectNode: ChangeNodeFunc
 }
 const Prompt: FC<IPromptProps> = ({
@@ -134,7 +147,6 @@ const Prompt: FC<IPromptProps> = ({
   dragOverNode,
   selectNode,
   changeHoverNode,
-  changeDragOverNode,
   changeSelectNode
 }) => {
   const hoverNodeRef = useRef<HTMLDivElement>(null)
@@ -146,12 +158,14 @@ const Prompt: FC<IPromptProps> = ({
       if (hoverNode) {
         const { width, height, left, top } = hoverNode.getRect()!
 
-        el.style.transform = `translate(${left}px, ${top}px)`
-        el.style.width = `${width - 4}px`
-        el.style.height = `${height - 4}px`
-        el.style.display = 'block'
+        setStyle(el, {
+          transform: `translate(${left}px, ${top}px)`,
+          width: `${width - 4}px`,
+          height: `${height - 4}px`,
+          display: 'block'
+        })
       } else {
-        el.style.display = 'none'
+        setStyle(el, { display: 'none' })
       }
     }
   }, [hoverNode])
@@ -170,13 +184,16 @@ const Prompt: FC<IPromptProps> = ({
         }
 
         const hoverRect = dragOverNode.getRect()!
-        el.style.top = `${hoverRect.top + hoverRect.height}px`
-        el.style.left = `${hoverRect.left}px`
-        el.style.width = `${hoverRect.width}px`
-        el.style.height = '2px'
-        el.style.display = 'block'
+
+        setStyle(el, {
+          top: `${hoverRect.top + hoverRect.height}px`,
+          left: `${hoverRect.left}px`,
+          width: `${hoverRect.width}px`,
+          height: '2px',
+          display: 'block'
+        })
       } else {
-        el.style.display = 'none'
+        setStyle(el, { display: 'none' })
       }
     }
   }, [dragOverNode])
