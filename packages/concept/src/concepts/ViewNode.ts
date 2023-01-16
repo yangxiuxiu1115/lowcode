@@ -13,6 +13,7 @@ export default class ViewNode extends BaseNode {
   text?: string
   parent?: ViewNode | View
   parentname?: string
+  singleChild?: boolean
 
   private location: DOMRect | null = null
   private _el: HTMLElement | null = null
@@ -27,7 +28,8 @@ export default class ViewNode extends BaseNode {
     parentname,
     typename,
     property = {},
-    isCloseTag
+    isCloseTag,
+    singleChild
   }: ViewNodeType) {
     super()
     super.instansition(properties)
@@ -40,6 +42,7 @@ export default class ViewNode extends BaseNode {
     this.parentname = parentname
     this.property = property
     this.isCloseTag = isCloseTag
+    this.singleChild = slot ? singleChild : false
   }
 
   update({ path, content }: ActionChange): void {

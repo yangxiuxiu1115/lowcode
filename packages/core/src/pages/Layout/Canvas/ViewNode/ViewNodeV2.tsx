@@ -40,6 +40,7 @@ class ViewItemV2 extends Component<Props> {
       ? (antd as any)[parentname][typename]
       : (antd as any)[typename]
 
+    console.log(typename, children)
     return (
       <Component {...property}>
         {children.length ? (

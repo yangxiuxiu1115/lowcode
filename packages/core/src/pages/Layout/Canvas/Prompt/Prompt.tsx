@@ -177,7 +177,9 @@ const Prompt: FC<IPromptProps> = ({
       if (dragOverNode) {
         if (dragOverNode.slot && !dragOverNode.children.length) {
           el.style.display = 'none'
-          const empty = dragOverNode.getElement()?.children[0] as HTMLDivElement
+          const dragOverNodeEl = dragOverNode.getElement()!
+          const empty = (dragOverNodeEl.children[0] ||
+            dragOverNodeEl) as HTMLDivElement
           empty.style.backgroundColor = 'aqua'
           lastEmpty = empty
           return
