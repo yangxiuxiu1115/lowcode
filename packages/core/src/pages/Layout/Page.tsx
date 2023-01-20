@@ -18,7 +18,6 @@ const Page = () => {
     setSelectNode(node)
   }
 
-  console.log('page update')
   return (
     <div className={style.layout}>
       <Layout>

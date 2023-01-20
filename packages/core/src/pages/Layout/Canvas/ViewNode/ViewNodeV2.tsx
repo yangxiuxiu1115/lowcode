@@ -29,7 +29,6 @@ class ViewItemV2 extends Component<Props> {
       dom.setAttribute('lowcode-path', path)
       viewNode.setRect(dom.getBoundingClientRect())
     }
-    console.log(viewNode.property)
   }
 
   render() {

@@ -70,7 +70,6 @@ const Editor: FC<IEditor> = ({
     setDragOverNode(undefined)
   }
 
-  console.log('update')
   return (
     <div
       className="app"

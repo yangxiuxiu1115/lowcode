@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 
 import { Form, InputNumber, Select, Input, Switch, Button } from 'antd'
 
@@ -63,6 +64,9 @@ const Attribute: FC<AttributeProps> = ({ selectNode, changeSelectNode }) => {
   const onFinish = (values: any) => {
     const path = getNodePath(selectNode)
     selectNode.update({ path, content: values })
+    flushSync(() => {
+      changeSelectNode()
+    })
     changeSelectNode(selectNode)
   }
 
