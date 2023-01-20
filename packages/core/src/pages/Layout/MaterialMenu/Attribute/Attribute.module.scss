@@ -1,0 +1,11 @@
+.attribute {
+  padding: 0 10px;
+  :global {
+    .ant-input-number {
+      width: 100%;
+    }
+    .ant-col.ant-form-item-label {
+      max-width: none;
+    }
+  }
+}

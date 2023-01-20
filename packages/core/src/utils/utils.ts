@@ -1,5 +1,12 @@
 import { View, ViewNode } from '@lowcode/concept'
 
+export const getNodePath = (node: ViewNode) => {
+  const el = node.getElement()!
+  const path = el.getAttribute('lowcode-path')!
+
+  return path
+}
+
 export const isViewNode = (node: HTMLElement): boolean => {
   const path = node.getAttribute('lowcode-path')
   const index = node.getAttribute('lowcode-index')

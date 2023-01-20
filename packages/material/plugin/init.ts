@@ -1,7 +1,8 @@
 interface IProperty {
-  type: 'string' | 'number' | 'select'
-  value: number | string
+  type: 'string' | 'number' | 'select' | 'switch'
+  value: number | string | boolean
   label: string
+  options?: Array<{ label: string; value: string | number }>
 }
 
 interface IConfigOption {
@@ -28,4 +29,4 @@ const init = (config: IConfigOption[] = []) => {
 }
 
 export { init, material }
-export type { IConfigOption, SettingConfig }
+export type { IConfigOption, SettingConfig, IProperty }

@@ -29,6 +29,7 @@ class ViewItemV2 extends Component<Props> {
       dom.setAttribute('lowcode-path', path)
       viewNode.setRect(dom.getBoundingClientRect())
     }
+    console.log(viewNode.property)
   }
 
   render() {
@@ -40,7 +41,6 @@ class ViewItemV2 extends Component<Props> {
       ? (antd as any)[parentname][typename]
       : (antd as any)[typename]
 
-    console.log(typename, children)
     return (
       <Component {...property}>
         {children.length ? (

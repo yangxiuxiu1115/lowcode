@@ -513,7 +513,7 @@
       "disabled": {
         "type": "switch",
         "label": "是否禁用",
-        "value": "false"
+        "value": false
       },
       "placeholder": {
         "type": "string",

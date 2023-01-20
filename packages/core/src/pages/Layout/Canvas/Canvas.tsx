@@ -69,6 +69,8 @@ const Editor: FC<IEditor> = ({
     changeSelectNode(dragOverNode?.children.at(-1) as ViewNode)
     setDragOverNode(undefined)
   }
+
+  console.log('update')
   return (
     <div
       className="app"
@@ -180,9 +182,6 @@ const Canvas: FC<{
         selectNode={selectNode}
         changeHoverNode={(viewnode) => {
           setHoverNode(viewnode)
-        }}
-        changeDragOverNode={(viewnode) => {
-          setDragOverNode(viewnode)
         }}
         changeSelectNode={(viewnode) => {
           changeSelectNode(viewnode)

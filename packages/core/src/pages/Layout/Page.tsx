@@ -18,22 +18,27 @@ const Page = () => {
     setSelectNode(node)
   }
 
+  console.log('page update')
   return (
-      <div className={style.layout}>
-        <Layout>
-          <Sider theme="light" collapsed={true} collapsedWidth={48}>
-            <Structure selectNode={selectNode} changeSelectNode={handleSelect}></Structure>
-          </Sider>
-          <Content>
-            <Canvas
-              changeSelectNode={handleSelect}
-              selectNode={selectNode}></Canvas>
-          </Content>
-          <Sider theme="light" width={250}>
-            <Material selectNode={selectNode}></Material>
-          </Sider>
-        </Layout>
-      </div>
+    <div className={style.layout}>
+      <Layout>
+        <Sider theme="light" collapsed={true} collapsedWidth={48}>
+          <Structure
+            selectNode={selectNode}
+            changeSelectNode={handleSelect}></Structure>
+        </Sider>
+        <Content>
+          <Canvas
+            changeSelectNode={handleSelect}
+            selectNode={selectNode}></Canvas>
+        </Content>
+        <Sider theme="light" width={250}>
+          <Material
+            selectNode={selectNode}
+            changeSelectNode={handleSelect}></Material>
+        </Sider>
+      </Layout>
+    </div>
   )
 }
 

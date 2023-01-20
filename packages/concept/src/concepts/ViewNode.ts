@@ -5,7 +5,7 @@ import type { ActionChange, ViewNodeType, IProperties } from './types'
 const properties: IProperties[] = [{ key: 'children', type: 'ViewNode' }]
 export default class ViewNode extends BaseNode {
   type = 'ViewNode'
-  property: { [key: string]: number | string } = {}
+  property: { [key: string]: number | string | boolean } = {}
   typename: string
   name: string
   slot: boolean
@@ -47,7 +47,7 @@ export default class ViewNode extends BaseNode {
 
   update({ path, content }: ActionChange): void {
     Object.keys(content).forEach((key) => {
-      this.property[key] = content[key].value
+      this.property[key] = content[key]
     })
     super.update({
       path,

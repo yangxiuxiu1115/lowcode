@@ -2,6 +2,8 @@ import React, { FC, ReactNode } from 'react'
 import { Tabs, Empty } from 'antd'
 import { ViewNode } from '@lowcode/concept'
 
+import Attribute from './Attribute/Attribute'
+
 import style from './MaterialMenu.module.scss'
 
 interface ITabType {
@@ -9,9 +11,24 @@ interface ITabType {
   key: string
   children?: ReactNode
 }
-const tabs: ITabType[] = [{ label: '属性', key: 'attribute' }]
 
-const MaterialMenu: FC<{ selectNode?: ViewNode }> = ({ selectNode }) => {
+const MaterialMenu: FC<{
+  selectNode?: ViewNode
+  changeSelectNode: (node?: ViewNode) => void
+}> = ({ selectNode, changeSelectNode }) => {
+  const tabs: ITabType[] = [
+    {
+      label: '属性',
+      key: 'attribute',
+      children: (
+        <Attribute
+          selectNode={selectNode!}
+          changeSelectNode={changeSelectNode}
+        />
+      )
+    }
+  ]
+
   return (
     <div className={style.materialMenu}>
       {selectNode ? (

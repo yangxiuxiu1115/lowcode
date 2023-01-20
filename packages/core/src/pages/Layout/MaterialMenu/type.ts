@@ -12,16 +12,16 @@ interface StringInput extends BindItemType<string> {
 
 interface SelectInput extends BindItemType<string> {
   type: 'select'
-  options: { label: string; value: string }[]
+  options: Array<{ label: string; value: string }>
 }
 
 interface SwitchInput extends BindItemType<boolean> {
   type: 'switch'
 }
 
-interface MultipleInput extends BindItemType<Array<string>> {
+interface MultipleInput extends BindItemType<string[]> {
   type: 'multiple'
-  options: { label: string; value: string }[]
+  options: Array<{ label: string; value: string }>
 }
 export interface BindType {
   placeholder?: StringInput
